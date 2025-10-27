@@ -8,7 +8,7 @@
 /* Teststílus – felső térköz a fix navbar miatt */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f6f7fb;
+  background-color: #ffffff;
   margin: 0;
   padding-top: 80px; /* Igazodik a navbar magasságához */
   overflow-x: hidden;
@@ -33,6 +33,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 /* Keresőmező stílusa */
@@ -50,7 +51,10 @@ body {
 
 /* Logó képe */
 .navbar img {
-  height: 60px;
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -180,7 +184,14 @@ button:hover {
   }
 
   .navbar .text-center {
+    flex-basis: 100%;
     justify-content: center;
+    align-items: center;
+  }
+
+  .navbar img {
+    max-width: 80%;
+    height: auto;
   }
 
   .navbar-nav {
