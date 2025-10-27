@@ -1,132 +1,91 @@
-/* Teststílus – hagyományos görgethető oldal, felső térközzel */
-body {
-    margin-top: 0px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    padding-top: 80px; /* Ez legyen akkora, mint a navbar magassága */
-    padding-right: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-}
-
-/* Navigációs sáv – fixen a képernyő tetején, minden fölött */
-.navbar {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    z-index: 1050; /* Magas rétegérték, hogy minden fölött legyen */
-    width: 100%;
-    height: 80px; /* Meghatározott magasság, hogy a body padding-top ehhez igazodjon */
-    background-color: #212529; /* Sötét háttér, ha nem Bootstrap színt használsz */
-    display: flex;
-    align-items: center;
-}
-
-/* Fejléc stílus */
-header h1 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-/* Lábléc stílus */
-footer {
-    padding-top: 20px;
-    padding-right: 0px;
-    padding-bottom: 20px;
-    padding-left: 0px;
-    background-color: #f8f9fa;
-    font-size: 18px;
-}
-
-/* Mobil nézet finomhangolása – csak 576px alatt */
+/* Mobilnézet finomhangolása – csak 576px alatt */
 @media (max-width: 576px) {
-    body {
-        padding-top: 80px; /* Mobilon is kell a felső térköz, igazítva a navbar magasságához */
-        padding-right: 0px;
-        padding-bottom: 0px;
-        padding-left: 0px;
-    }
+  
+  /* Navigációs sáv belső elrendezés */
+  .navbar .container-fluid {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 
-    header h1 {
-        font-size: 1.8rem;
-        margin-top: 40px;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        font-size: 1.4rem;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        font-weight: 200;
-    }
-
-    h3 {
-        font-size: 1.1rem;
-        font-weight: 300;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    hr {
-        margin-top: 0px;
-        margin-bottom: 10px;
-        border: 1px solid #f4f4f4;
-    }
-}
-
-/* Egyéb elemek */
-h2 {
-    margin-top: 20px;
+  /* Keresőmező teljes szélességben */
+  #keresoMezo,
+  #mobilKeresoMezo {
+    width: 100%;
     margin-bottom: 10px;
-    font-weight: 200;
-    font-size: 1.6rem;
-}
+  }
 
-h3 {
-    font-weight: 200;
-    font-size: 15px;
+  /* Mobil kereső gomb igazítása */
+  #mobilKeresosav button {
+    width: 100%;
+  }
+
+  /* Menü gomb igazítása */
+  .navbar-toggler {
+    align-self: flex-end;
     margin-top: 10px;
     margin-bottom: 10px;
-}
+  }
 
-hr {
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    margin-top: 0px;
-    margin-right: 0px;
-    margin-bottom: 15px;
-    margin-left: 0px;
-    border: 1px solid #f4f4f4;
-}
-
-/* Fejléc kép vagy banner */
-#fejlec {
-    margin-top: 20px;
-    margin-bottom: 20px;
+  /* Menüelemek függőleges elrendezésben */
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-}
+  }
 
-/* Választási blokk vagy kiemelt szakasz */
-#valasztas {
-    padding-top: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    border-width: 3px;
-    border-style: solid;
-    border-color: #f44444;
-    margin-bottom: 15px;
-    background-color: #ffffff;
-    border-radius: 5px;
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    display: block;
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    font-size: 1rem;
+    border-bottom: 1px solid #333333;
+  }
+
+  .navbar-nav .nav-link:hover {
+    background-color: #444444;
+  }
+
+  /* Kosár ikon mobilon is jól látható */
+  #kosarDb {
+    font-weight: bold;
+    color: #ffc107;
+  }
+
+  /* Mobil logó középre igazítása */
+  .navbar .text-center {
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  /* Mobil logó mérete */
+  .navbar img {
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Mobil kereső sáv margóval */
+  #mobilKeresosav {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  /* Fejléc, tartalom, lábléc mobil padding */
+  header,
+  article,
+  footer {
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+  }
 }

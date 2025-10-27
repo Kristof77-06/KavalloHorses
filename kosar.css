@@ -1,50 +1,142 @@
+/* Alap reset: minden elem margó és padding nullázása, box-model egységesítése */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Teststílus */
 body {
   font-family: Arial, sans-serif;
   background-color: #f6f7fb;
   margin: 0;
-  padding: 0;
+  padding-top: 80px; /* Igazodik a fix navbar magasságához */
+  overflow-x: hidden;
 }
 
+/* Navigációs sáv – nem írjuk felül a fix pozíciót */
+.navbar {
+  background-color: #212529;
+  color: white;
+  width: 100%;
+  z-index: 1050;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+/* Navigációs sáv belső elrendezés */
+.navbar .container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Keresőmező stílusa */
+#keresoMezo {
+  width: 200px;
+}
+
+/* Logó középre igazítása */
+.navbar .text-center {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Logó képe */
+.navbar img {
+  height: 60px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Menü gomb és menülista */
+.navbar-toggler {
+  margin-left: 10px;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.navbar-nav .nav-link {
+  color: white;
+  font-weight: 500;
+  padding-top: 8px;
+  padding-right: 12px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: #333333;
+  border-radius: 4px;
+}
+
+/* Kosár ikon kiemelése */
+#kosarDb {
+  font-weight: bold;
+  color: #ffc107;
+}
+
+/* Kosár oldal konténer */
 .container {
   width: 90%;
   max-width: 900px;
-  margin: 50px auto;
-  background: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
 }
 
+/* Kosár fejléc */
 h1 {
   text-align: center;
-  color: #333;
+  color: #333333;
 }
 
+/* Kosár tétel */
 .cart-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
-  padding: 10px 0;
+  border-bottom: 1px solid #eeeeee;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .cart-item:last-child {
   border-bottom: none;
 }
 
+/* Tétel információ */
 .item-info {
   flex: 1;
 }
 
 .item-name {
   font-weight: bold;
-  color: #222;
+  color: #222222;
 }
 
 .item-price {
-  color: #666;
+  color: #666666;
 }
 
+/* Összesítő */
 .total {
   text-align: right;
   margin-top: 20px;
@@ -52,23 +144,62 @@ h1 {
   font-weight: bold;
 }
 
+/* Gombok */
 .actions {
   text-align: center;
   margin-top: 30px;
 }
 
 button {
-  background: #454546;
+  background-color: #454546;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
   border-radius: 8px;
   margin: 5px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
   font-size: 16px;
 }
 
 button:hover {
-  background: #424242;
+  background-color: #424242;
+}
+
+/* Lábléc */
+footer {
+  background-color: #ffffff;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #000000;
+}
+
+/* Reszponzív finomhangolás */
+@media (max-width: 576px) {
+  .navbar .text-center {
+    justify-content: center;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  #keresoMezo {
+    width: 100%;
+  }
+
+  header,
+  article,
+  footer {
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+  }
 }

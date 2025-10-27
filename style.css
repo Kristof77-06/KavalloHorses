@@ -5,13 +5,27 @@
   box-sizing: border-box;
 }
 
-/* Navigációs sáv teljes stílusa */
+/* Teststílus – felső térköz a fix navbar miatt */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f6f7fb;
+  margin: 0;
+  padding-top: 80px; /* Igazodik a navbar magasságához */
+  overflow-x: hidden;
+}
+
+/* Navigációs sáv – fixen a képernyő tetején, minden fölött */
 .navbar {
-  background-color: #000000;
-  color: white;
-  position: relative;
-  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
   width: 100%;
+  height: 80px;
+  background-color: #212529;
+  display: flex;
+  align-items: center;
 }
 
 /* Navigációs sáv belső elrendezés */
@@ -79,6 +93,12 @@ header {
   text-align: center;
 }
 
+header h1 {
+  margin-top: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 /* Tartalom szakasz */
 article {
   padding: 20px;
@@ -95,14 +115,70 @@ footer {
   color: #000000;
 }
 
-/* Gombok egységes stílusa */
-button {
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Címsorok */
+h2 {
+  margin-top: 20px;
+  font-weight: 200;
+  font-size: 1.6rem;
 }
 
-/* Reszponzív finomhangolás */
+h3 {
+  font-weight: 200;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Vízszintes vonal */
+hr {
+  padding: 0px;
+  margin: 0px;
+  border: 1px solid #f4f4f4;
+  margin-bottom: 15px;
+}
+
+/* Fejléc kép vagy banner */
+#fejlec {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Választási blokk vagy kiemelt szakasz */
+#valasztas {
+  padding: 20px;
+  border: 3px solid #f44444;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+/* Gombok egységes stílusa */
+button {
+  background-color: #454546;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #424242;
+}
+
+/* Reszponzív finomhangolás – mobilnézet */
 @media (max-width: 576px) {
+  body {
+    padding-top: 80px; /* Mobilon is igazodik a navbar magasságához */
+  }
+
   .navbar .text-center {
     justify-content: center;
   }
@@ -120,5 +196,28 @@ button {
   article,
   footer {
     padding: 15px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    margin-top: 40px;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 200;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  hr {
+    margin-bottom: 10px;
   }
 }
