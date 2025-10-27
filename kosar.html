@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kosár</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <!-- Font Awesome ikonok -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+    ></script>
+
+    <!-- Egyéni stíluslapok -->
+    <link
+      rel="stylesheet"
+      href="style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="mobilmenu.css"
+    />
+    <link
+      rel="stylesheet"
+      href="kosar.css"
+    />
+
+    <!-- Modul alapú JavaScript -->
+    <script
+      type="module"
+      src="main.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Navigációs sáv -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark w-100">
+      <div class="container-fluid">
+        <!-- Gépi keresőmező -->
+        <form
+          class="d-none d-sm-flex me-auto"
+          role="search"
+          onsubmit="event.preventDefault(); keresesInditasa();"
+        >
+          <input
+            type="text"
+            id="keresoMezo"
+            class="form-control me-2"
+            placeholder="Keresés..."
+          />
+          <button
+            type="submit"
+            class="btn btn-outline-light"
+          >
+            Keresés
+          </button>
+        </form>
+
+        <!-- Mobilos kereső gomb -->
+        <div class="d-sm-none d-flex justify-content-start px-3">
+          <button
+            class="btn btn-outline-light"
+            onclick="toggleKeresosav()"
+          >
+            Keresés
+          </button>
+        </div>
+
+        <!-- Mobilos kereső sáv -->
+        <div
+          id="mobilKeresosav"
+          class="d-sm-none px-3"
+          style="display: none;"
+        >
+          <input
+            type="text"
+            id="mobilKeresoMezo"
+            class="form-control my-2"
+            placeholder="Írd be, amit keresel..."
+          />
+          <button
+            class="btn btn-primary mb-3"
+            onclick="keresesInditasa()"
+          >
+            Keresés indítása
+          </button>
+        </div>
+
+        <!-- Menü gomb -->
+        <button
+          class="navbar-toggler ms-auto"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mynavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menü elemek -->
+        <div
+          class="collapse navbar-collapse"
+          id="mynavbar"
+        >
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="kezdolap.html"
+              >
+                Kezdőlap
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="rolunk.html"
+              >
+                Rólunk
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="index.html"
+              >
+                Termékeink
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="kosar.html"
+              >
+                <i class="fa fa-shopping-cart"></i>
+                Kosár
+                <span id="kosarDb">(0)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Kosár tartalom -->
+    <main class="row">
+      <div class="container mt-5">
+        <h1 class="text-center">
+          🛒 Kosarad
+        </h1>
+
+        <div class="d-flex justify-content-end mb-3">
+          <button
+            id="clear-cart"
+            class="btn btn-outline-danger"
+            title="Kosár ürítése"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+
+        <div
+          id="cart-items"
+        >
+        </div>
+
+        <div
+          class="total mt-3"
+          id="cart-total"
+        >
+          Összesen: 0 Ft
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+          <button
+            id="checkout"
+            class="btn btn-primary"
+          >
+            Megrendelés elküldése
+          </button>
+        </div>
+      </div>
+
+      <footer class="col-lg-12 text-center mt-4">
+        <i
+          style="font-size: 24px"
+        >
+        </i>
+      </footer>
+    </main>
+
+    <script
+      src="kosar.js"
+    ></script>
+  </body>
+</html>

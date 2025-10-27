@@ -1,0 +1,124 @@
+/* Alap reset: minden elem margó és padding nullázása, box-model egységesítése */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Navigációs sáv teljes stílusa */
+.navbar {
+  background-color: #000000;
+  color: white;
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Navigációs sáv belső elrendezés */
+.navbar .container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Keresőmező stílusa */
+#keresoMezo {
+  width: 200px;
+}
+
+/* Logó középre igazítása */
+.navbar .text-center {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Logó képe */
+.navbar img {
+  height: 60px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Menü gomb és menülista */
+.navbar-toggler {
+  margin-left: 10px;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.navbar-nav .nav-link {
+  color: white;
+  font-weight: 500;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: #333333;
+  border-radius: 4px;
+}
+
+/* Kosár ikon kiemelése */
+#kosarDb {
+  font-weight: bold;
+  color: #ffc107;
+}
+
+/* Fejléc szakasz */
+header {
+  padding: 20px;
+  background-color: #f8f9fa;
+  color: #000000;
+  text-align: center;
+}
+
+/* Tartalom szakasz */
+article {
+  padding: 20px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Lábléc szakasz */
+footer {
+  background-color: #ffffff;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #000000;
+}
+
+/* Gombok egységes stílusa */
+button {
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Reszponzív finomhangolás */
+@media (max-width: 576px) {
+  .navbar .text-center {
+    justify-content: center;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  #keresoMezo {
+    width: 100%;
+  }
+
+  header,
+  article,
+  footer {
+    padding: 15px;
+  }
+}

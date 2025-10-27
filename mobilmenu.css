@@ -1,0 +1,90 @@
+/* Teststílus – hagyományos görgethető oldal, felső térközzel */
+body {
+    margin: 0;
+    padding-top: 70px; /* Ez legyen akkora, mint a navbar magassága */
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Navigációs sáv – fixen a képernyő tetején, minden fölött */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050; /* Magas rétegérték, hogy minden fölött legyen */
+    width: 100%;
+    background-color: #212529; /* Sötét háttér, ha nem Bootstrap színt használsz */
+}
+
+/* Fejléc stílus */
+header h1 {
+    margin-top: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Lábléc stílus */
+footer {
+    padding: 20px 0;
+    background-color: #f8f9fa;
+    font-size: 18px;
+}
+
+/* Mobil nézet finomhangolása – csak 576px alatt */
+@media (max-width: 576px) {
+    body {
+        padding-top: 70px; /* Mobilon is kell a felső térköz */
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+        margin-top: 40px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin-top: 20px;
+        font-weight: 200;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 300;
+    }
+
+    hr {
+        margin-bottom: 10px;
+    }
+}
+
+/* Egyéb elemek */
+h2 {
+    margin-top: 20px;
+    font-weight: 200;
+}
+
+h3 {
+    font-weight: 200;
+    font-size: 15px;
+}
+
+hr {
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid #f4f4f4;
+    margin-bottom: 15px;
+}
+
+#fejlec {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 200px;
+}
+
+#valasztas {
+    padding: 20px;
+    border: 3px solid #f44444;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termék konfiguráció</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="termekbelso.js"></script>
+    <style>
+      .termek-oldal {
+        display: none;
+      }
+      .termek-oldal.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body class="container py-4">
+    <h1 class="text-center mb-4">Termék konfiguráció</h1>
+
+    <!-- Karkötő -->
+    <section id="karkoto" class="termek-oldal">
+      <h2>Karkötő konfiguráció</h2>
+      <label for="meretK">Méret (cm):</label>
+      <input type="number" id="meretK" class="form-control" min="10" max="30" value="17" />
+
+      <label for="gravirK">Gravírozott szöveg:</label>
+      <input type="text" id="gravirK" class="form-control" placeholder="Pl. LILI" />
+
+      <label for="szin1K">Első szín:</label>
+      <select id="szin1K" class="form-select">
+        <option value="ezust">Ezüst</option>
+        <option value="arany">Arany</option>
+      </select>
+
+      <label for="szin2K">Második szín (opcionális):</label>
+      <select id="szin2K" class="form-select">
+        <option value="">—</option>
+        <option value="ezust">Ezüst</option>
+        <option value="arany">Arany</option>
+      </select>
+
+      <button class="btn btn-primary mt-3" onclick="szamoljArat()">Ár kiszámítása</button>
+      <div id="eredmenyK" class="mt-3"></div>
+    </section>
+
+    <!-- Bokalánc -->
+    <section id="bokalanc" class="termek-oldal">
+      <h2>Bokalánc konfiguráció</h2>
+      <label for="meretB">Méret (cm):</label>
+      <input type="number" id="meretB" class="form-control" min="15" max="35" value="22" />
+
+      <label for="gravirB">Gravírozott szöveg:</label>
+      <input type="text" id="gravirB" class="form-control" placeholder="Pl. LILI" />
+
+      <label for="szin1B">Szín:</label>
+      <select id="szin1B" class="form-select">
+        <option value="ezust">Ezüst</option>
+        <option value="arany">Arany</option>
+        <option value="rozsaszin">Rózsaszín</option>
+      </select>
+
+      <button class="btn btn-primary mt-3">Ár kiszámítása</button>
+    </section>
+
+    <!-- Kantárdísz -->
+    <section id="kantardisz" class="termek-oldal">
+      <h2>Kantárdísz konfiguráció</h2>
+      <label for="gravirKa">Gravírozott szöveg:</label>
+      <input type="text" id="gravirKa" class="form-control" placeholder="Pl. CSILLAG" />
+
+      <label for="anyagKa">Anyag típusa:</label>
+      <select id="anyagKa" class="form-select">
+        <option value="bőr">Bőr</option>
+        <option value="fém">Fém</option>
+        <option value="textil">Textil</option>
+      </select>
+
+      <label for="diszKa">Díszítőelem:</label>
+      <select id="diszKa" class="form-select">
+        <option value="gyongy">Gyöngy</option>
+        <option value="medal">Medál</option>
+        <option value="csillag">Csillag</option>
+      </select>
+
+      <button class="btn btn-primary mt-3">Ár kiszámítása</button>
+    </section>
+
+    <!-- Táskadísz -->
+    <section id="taskadisz" class="termek-oldal">
+      <h2>Táskadísz konfiguráció</h2>
+      <label for="gravirT">Gravírozott szöveg:</label>
+      <input type="text" id="gravirT" class="form-control" placeholder="Pl. LOVE" />
+
+      <label for="szinT">Szín:</label>
+      <select id="szinT" class="form-select">
+        <option value="piros">Piros</option>
+        <option value="fekete">Fekete</option>
+        <option value="ezust">Ezüst</option>
+      </select>
+
+      <label for="diszT">Díszítőelem:</label>
+      <select id="diszT" class="form-select">
+        <option value="bojt">Bojt</option>
+        <option value="medal">Medál</option>
+        <option value="gyongy">Gyöngy</option>
+      </select>
+
+      <button class="btn btn-primary mt-3">Ár kiszámítása</button>
+    </section>
+  </body>
+</html>
