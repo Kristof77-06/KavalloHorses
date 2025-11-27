@@ -12,7 +12,7 @@
   /* Keresőmező teljes szélességben mobilon */
   #keresoMezo,
   #keresoMezoMobil {
-    width: 100%;
+    width: auto;
     margin-bottom: 10px;
   }
 
@@ -23,7 +23,6 @@
 
   /* Menü gomb igazítása */
   .navbar-toggler {
-    align-self: flex-end;
     margin-top: 10px;
     margin-bottom: 10px;
   }
