@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,20 +22,16 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
-    <!-- jQuery -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-      integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
-      crossorigin="anonymous"
-    ></script>
+    <!-- jQuery (csak egyszer, teljes verzió) -->
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
     ></script>
 
     <!-- Egyéni stíluslapok -->
-      <link rel="stylesheet" href="style.css" />
-      <link rel="stylesheet" href="mobilmenu.css" />
-      
+    <link
+      rel="stylesheet"
+      href="style.css"
+    />
     <link
       rel="stylesheet"
       href="mobilmenu.css"
@@ -49,8 +45,12 @@
   </head>
   <body>
     <!-- Navigációs sáv -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark w-100">
-      <div class="container-fluid">
+    <nav
+      class="navbar navbar-expand-sm navbar-dark bg-dark w-100"
+    >
+      <div
+        class="container-fluid"
+      >
         <!-- Gépi keresőmező -->
         <form
           class="d-none d-sm-flex me-auto"
@@ -72,7 +72,9 @@
         </form>
 
         <!-- Mobilos kereső gomb -->
-        <div class="d-sm-none d-flex justify-content-start px-3">
+        <div
+          class="d-sm-none d-flex justify-content-start px-3"
+        >
           <button
             class="btn btn-outline-light"
             onclick="toggleKeresosav()"
@@ -111,7 +113,9 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span
+            class="navbar-toggler-icon"
+          ></span>
         </button>
 
         <!-- Menü elemek -->
@@ -119,8 +123,12 @@
           class="collapse navbar-collapse"
           id="mynavbar"
         >
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
+          <ul
+            class="navbar-nav ms-auto"
+          >
+            <li
+              class="nav-item"
+            >
               <a
                 class="nav-link"
                 href="Kezdolap.html"
@@ -128,7 +136,9 @@
                 Kezdőlap
               </a>
             </li>
-            <li class="nav-item">
+            <li
+              class="nav-item"
+            >
               <a
                 class="nav-link"
                 href="rolunk.html"
@@ -136,7 +146,9 @@
                 Rólunk
               </a>
             </li>
-            <li class="nav-item">
+            <li
+              class="nav-item"
+            >
               <a
                 class="nav-link"
                 href="index.html"
@@ -144,14 +156,22 @@
                 Termékeink
               </a>
             </li>
-            <li class="nav-item">
+            <li
+              class="nav-item"
+            >
               <a
                 class="nav-link"
                 href="kosar.html"
               >
-                <i class="fa fa-shopping-cart"></i>
+                <i
+                  class="fa fa-shopping-cart"
+                ></i>
                 Kosár
-                <span id="kosarDb">(0)</span>
+                <span
+                  id="kosarDb"
+                >
+                  (0)
+                </span>
               </a>
             </li>
           </ul>
@@ -160,12 +180,58 @@
     </nav>
 
     <!-- Oldal tartalom -->
-    <main class="row">
-      <header class="text-center col-lg-12">
+    <main
+      class="row"
+    >
+      <header
+        class="text-center col-lg-12 mt-3 mb-3"
+      >
         <h1>
           Termékeink
         </h1>
       </header>
+
+      <!-- Szűrési lista a fejléc alatt -->
+      <aside
+        id="szures"
+        class="col-lg-12 mb-4 px-4"
+      >
+        <div
+          class="d-flex align-items-center justify-content-center"
+        >
+          <label
+            for="kategoriak"
+            class="fw-bold me-3"
+          >
+            Szűrés kategória szerint:
+          </label>
+          <select
+            id="kategoriak"
+            class="form-select w-auto"
+          >
+            <option
+              value="osszes"
+            >
+              Összes
+            </option>
+            <option
+              value="kiegészítők"
+            >
+              Kiegészítők
+            </option>
+            <option
+              value="egészség javító"
+            >
+              Egészség javító
+            </option>
+            <option
+              value="csomagok"
+            >
+              Csomagok
+            </option>
+          </select>
+        </div>
+      </aside>
 
       <aside
         id="keres"
@@ -173,23 +239,88 @@
       >
       </aside>
 
-      <article class="col-lg-12">
+      <article
+        class="col-lg-12"
+      >
       </article>
 
       <aside
         id="termekek"
-        class="col-lg-4"
+        class="col-lg-12 px-4"
       >
+        <!-- Ide tölti be a main.js a termekekLISTA tartalmát -->
       </aside>
 
-      <footer class="col-lg-12 text-center mt-4">
-        <i
-        
-          style="font-size: 36px"
+      <footer
+        class="col-lg-12 text-center mt-4 bg-light py-4"
+      >
+        <div
+          class="container"
         >
-          
-        </i>
+          <p
+            class="mb-1"
+          >
+            © 2025 Webshop - Minden jog fenntartva
+          </p>
+          <p
+            class="mb-1"
+          >
+            Kézzel készült termékek, szeretettel
+          </p>
+        </div>
       </footer>
     </main>
+
+    <!-- 🔧 Bootstrap modál a „Megtekintés” gombhoz -->
+    <div
+      class="modal fade"
+      id="megtekintesModal"
+      tabindex="-1"
+      aria-labelledby="megtekintesModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-xl"
+      >
+        <div
+          class="modal-content"
+        >
+          <!-- Bal felső nyíl gomb + cím -->
+          <div
+            class="modal-header justify-content-start"
+          >
+            <button
+              type="button"
+              class="btn btn-link text-dark"
+              data-bs-dismiss="modal"
+              aria-label="Bezárás"
+            >
+              <i
+                class="fa fa-arrow-left fa-lg"
+              ></i>
+            </button>
+            <h5
+              class="modal-title ms-2"
+              id="megtekintesModalLabel"
+            >
+              Termék megtekintése
+            </h5>
+          </div>
+
+          <!-- 🔑 Itt tölti be a main.js dinamikusan a tartalmat -->
+          <div
+            class="modal-body"
+            id="modalBody"
+          >
+          </div>
+
+          <!-- Footer elrejtve -->
+          <div
+            class="modal-footer d-none"
+          >
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
