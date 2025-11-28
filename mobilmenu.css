@@ -74,6 +74,7 @@
   #keresoMezo,
   #keresoMezoMobil,
   #mobilKeresosav button {
+    display: block;           /* ténylegesen megjelenjen */
     width: 100%;
     margin-bottom: 10px;
   }
