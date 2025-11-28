@@ -23,7 +23,7 @@
     z-index: 9999;
 
     height: auto;             /* csak a tartalom magassága */
-    min-height: unset;        /* ha kevés tartalom van, kitölti a képernyőt */
+    min-height: 100vh;        /* ha kevés tartalom van, kitölti a képernyőt */
   }
   .navbar-collapse.show {
     transform: translateX(0); /* belép balról */
@@ -64,7 +64,7 @@
     z-index: 9999;
 
     height: auto;             /* csak a tartalom magassága */
-    min-height: 100vh;        /* ha kevés tartalom van, kitölti a képernyőt */
+    min-height: unset;        /* ha kevés tartalom van, kitölti a képernyőt */
   }
   #mobilKeresosav.show {
     transform: translateX(0); /* belép jobbról */
