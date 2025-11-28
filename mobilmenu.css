@@ -1,6 +1,113 @@
-/* Mobilnézet finomhangolása – csak 576px alatt */
+/* ============================================================
+   Általános stílusok
+   ============================================================ */
+
+/* Fejléc sticky */
+header.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background: #0b0b0b;
+  border-bottom: 1px solid #181818;
+}
+
+/* Menüpanel alapállapot */
+#menuPanel {
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+  position: relative;       /* dokumentumáramlás része */
+  overflow: hidden;
+  max-height: 0;            /* alapból rejtve */
+  transform: translateX(-100%); /* balról kicsúsztatva */
+  transition: transform 320ms ease, max-height 320ms ease;
+  background: #222;
+  border-bottom: 1px solid #2a2a2a;
+  z-index: 50;
+  will-change: transform, max-height;
+}
+
+/* Nyitott menüpanel */
+#menuPanel.open {
+  transform: translateX(0);
+}
+
+/* Menü lista és linkek */
+#menuPanel .navbar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  margin: 0;
+  list-style: none;
+}
+#menuPanel .nav-item { margin: 0; }
+#menuPanel .nav-link {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: background 160ms ease, color 160ms ease;
+}
+#menuPanel .nav-link:hover,
+#menuPanel .nav-link:focus {
+  background: #2a2a2a;
+  color: #fff;
+  outline: none;
+}
+
+/* Kosár számláló */
+#menuPanel #kosarDb {
+  margin-left: 6px;
+  color: #ffd;
+  font-weight: 600;
+}
+
+/* pointer-events aria alapján */
+#menuPanel[aria-hidden="true"] { pointer-events: none; }
+#menuPanel[aria-hidden="false"] { pointer-events: auto; }
+
+/* ============================================================
+   Mobil keresősáv
+   ============================================================ */
+
+/* Alapállapot: rejtve */
+#mobilKeresosav {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 240ms ease, padding 200ms ease;
+  padding-top: 0;
+  padding-bottom: 0;
+  background: #0b0b0b;
+  border-top: 1px solid #181818;
+  z-index: 1100;
+}
+
+/* Nyitott állapot */
+#mobilKeresosav.open {
+  padding-top: 8px;
+  padding-bottom: 12px;
+}
+
+/* Input stílus */
+#mobilKeresosav .form-control {
+  background: #fff;
+  color: #111;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+#mobilKeresosav .form-control::placeholder {
+  color: #666;
+}
+
+/* ============================================================
+   Mobilnézet finomhangolás – csak 576px alatt
+   ============================================================ */
 @media (max-width: 576px) {
-  
   /* Fejléc: logó balra, hamburger jobbra */
   .navbar .container-fluid {
     flex-direction: row;
@@ -10,36 +117,14 @@
     overflow: visible; /* ne vágja le a keresősávot */
   }
 
-  /* Bal oldali hamburger menü */
-  .navbar-collapse {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: auto;
-    width: 75%;
-    background-color: #222;
-    padding: 20px 15px;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 9999;           /* overlay réteg */
-
-    height: auto;
-    min-height: unset;
-  }
-  .navbar-collapse.show {
-    transform: translateX(0);
-  }
-
   /* Menüelemek függőlegesen */
-  .navbar-collapse .navbar-nav {
+  #menuPanel .navbar-nav {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
   }
-  .navbar-nav .nav-item {
-    width: 100%;
-  }
-  .navbar-nav .nav-link {
+  #menuPanel .nav-item { width: 100%; }
+  #menuPanel .nav-link {
     display: block;
     width: 100%;
     padding: 10px 15px;
@@ -47,43 +132,7 @@
     border-bottom: 1px solid #333333;
     color: #fff;
   }
-  .navbar-nav .nav-link:hover {
-    background-color: #444444;
-  }
-
-  /* Mobil kereső sáv — mindig látszódjon, a menü fölött legyen */
-  #mobilKeresosav {
-    position: relative;       /* külön stacking context */
-    width: 100%;
-    background-color: transparent;
-    padding: 10px 0;
-    transform: none;
-    transition: none;
-    z-index: 10000;           /* .navbar-collapse (9999) fölé emelve */
-
-    height: auto;
-    min-height: unset;
-  }
-
-  /* Keresőmező és gomb a kereső sávban */
-  #keresoMezo,
-  #keresoMezoMobil,
-  #mobilKeresosav button {
-    display: block !important;   /* biztos megjelenés */
-    width: 100%;
-    margin-bottom: 10px;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  /* Kontraszt a keresőmezőn, hogy ne tűnjön el vizuálisan */
-  #mobilKeresosav input {
-    background: #fff;
-    color: #111;
-  }
-  #mobilKeresosav input::placeholder {
-    color: #666;
-  }
+  #menuPanel .nav-link:hover { background-color: #444444; }
 
   /* Kosár ikon */
   #kosarDb {
@@ -93,14 +142,10 @@
   }
 
   /* Logó mérete */
-  .navbar img {
-    height: 50px;
-  }
+  .navbar img { height: 50px; }
 
   /* Fejléc, tartalom, lábléc mobil padding */
   header,
   article,
-  footer {
-    padding: 15px;
-  }
+  footer { padding: 15px; }
 }
