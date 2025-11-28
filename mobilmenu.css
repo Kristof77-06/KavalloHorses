@@ -77,6 +77,8 @@
     display: block;           /* ténylegesen megjelenjen */
     width: 100%;
     margin-bottom: 10px;
+    visibility: visible;      /* biztosan látszódjon */
+    opacity: 1;               /* ne legyen áttetsző */
   }
 
   /* Kosár ikon */
