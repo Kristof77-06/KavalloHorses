@@ -13,20 +13,20 @@
   .navbar-collapse {
     position: fixed;
     top: 0;
-    left: 0;                  /* bal oldalról indul */
+    left: 0;
     right: auto;
-    width: 75%;               /* panel szélessége */
-    background-color: #222;   /* panel háttere */
-    padding: 20px 15px;       /* kompaktabb padding */
-    transform: translateX(-100%); /* alapállapotban rejtve */
+    width: 75%;
+    background-color: #222;
+    padding: 20px 15px;
+    transform: translateX(-100%);
     transition: transform 0.3s ease;
     z-index: 9999;
 
-    height: auto;             /* csak a tartalom magassága */
-    min-height: unset;        /* ne legyen kötelező teljes képernyő */
+    height: auto;
+    min-height: unset;
   }
   .navbar-collapse.show {
-    transform: translateX(0); /* belép balról */
+    transform: translateX(0);
   }
 
   /* Menüelemek függőlegesen */
@@ -50,35 +50,29 @@
     background-color: #444444;
   }
 
-  /* Jobb oldali kereső panel */
+  /* Mobil kereső sáv — mindig látszódjon */
   #mobilKeresosav {
-    position: fixed;
-    top: 0;
-    right: 0;                 /* jobb oldalról indul */
-    left: auto;
-    width: 75%;
-    background-color: #222;   /* panel háttere */
-    padding: 20px 15px;       /* kompaktabb padding */
-    transform: translateX(100%); /* alapállapotban rejtve */
-    transition: transform 0.3s ease;
-    z-index: 9999;
+    position: relative;       /* ne legyen fix panel */
+    width: 100%;              /* teljes sor szélesség */
+    background-color: transparent;
+    padding: 10px 0;
+    transform: none;          /* ne tolja ki a képernyőről */
+    transition: none;
+    z-index: auto;
 
-    height: auto;             /* csak a tartalom magassága */
-    min-height: unset;        /* ne legyen kötelező teljes képernyő */
-  }
-  #mobilKeresosav.show {
-    transform: translateX(0); /* belép jobbról */
+    height: auto;
+    min-height: unset;
   }
 
-  /* Keresőmező és gomb a kereső panelben */
+  /* Keresőmező és gomb a kereső sávban */
   #keresoMezo,
   #keresoMezoMobil,
   #mobilKeresosav button {
     display: block;           /* ténylegesen megjelenjen */
     width: 100%;
     margin-bottom: 10px;
-    visibility: visible;      /* biztosan látszódjon */
-    opacity: 1;               /* ne legyen áttetsző */
+    visibility: visible;
+    opacity: 1;
   }
 
   /* Kosár ikon */
