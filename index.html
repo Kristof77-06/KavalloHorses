@@ -2,7 +2,7 @@
 <html lang="hu">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Termékeink</title>
 
     <!-- Bootstrap CSS -->
@@ -11,115 +11,175 @@
       rel="stylesheet"
     />
 
-    <!-- Bootstrap JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
     <!-- Font Awesome ikonok -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
-    <!-- jQuery (csak egyszer, teljes verzió) -->
+    <!-- jQuery (teljes verzió) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap JS (bundle) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Egyéni stíluslapok -->
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="mobilmenu.css" />
 
-    <!-- Modul alapú JavaScript -->
+    <!-- Célzott stílusok: nem fix, balról nyíló menü a fejléc alatt + mobil keresősáv mindig látszik -->
+    <style>
+      /* Fejléc felül marad, alatta nyílik a menü */
+      header.site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10000;
+        background: #0b0b0b;
+        border-bottom: 1px solid #181818;
+      }
+      header.site-header .container-fluid {
+        overflow: visible;
+      }
+
+      /* Mobil keresősáv: mindig látható, nincs inline rejtés */
+      #mobilKeresosav {
+        display: block;
+        padding: 8px 16px 12px 16px;
+        background: #0b0b0b;
+        border-top: 1px solid #181818;
+      }
+      #mobilKeresosav .form-control {
+        background: #fff;
+        color: #111;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+      #mobilKeresosav .form-control::placeholder {
+        color: #666;
+      }
+
+      /* Nem fix menüpanel a fejléc alatt: balról csúszik be, tartalmat lejjebb tolja */
+      #menuPanel {
+        position: relative;
+        width: 100%;
+        background: #222;
+        border-bottom: 1px solid #2a2a2a;
+        overflow: hidden;              /* az animált magasság miatt */
+        transform: translateX(-100%);  /* alapállapot: balra kint */
+        max-height: 0;                 /* zárt állapotban ne foglaljon helyet */
+        transition: transform 0.3s ease, max-height 0.3s ease;
+        will-change: transform, max-height;
+      }
+      #menuPanel.open {
+        transform: translateX(0);      /* balról becsúszik */
+        max-height: 80vh;              /* helyet foglal → tartalom lejjebb tolódik */
+      }
+      #menuPanel .navbar-nav {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 10px;
+        gap: 6px;
+      }
+      #menuPanel .nav-link {
+        display: block;
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 6px;
+        color: #fff;
+        border: 1px solid #333;
+        background: #1a1a1a;
+      }
+      #menuPanel .nav-link:hover {
+        background: #242424;
+      }
+
+      /* Mobil finomhangolás */
+      @media (max-width: 576px) {
+        header.site-header .navbar .container-fluid {
+          padding: 10px 16px;
+        }
+      }
+    </style>
+
+    <!-- Modul alapú JavaScript (alkalmazás logika) -->
     <script type="module" src="main.js"></script>
   </head>
   <body>
-    <!-- Navigációs sáv -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark w-100">
-      <div class="container-fluid d-flex flex-nowrap">
-        <!-- Gépi keresőmező -->
-        <form
-          class="d-none d-sm-flex me-auto"
-          role="search"
-          onsubmit="event.preventDefault(); keresesInditasa();"
-        >
-          <input
-            type="text"
-            id="keresoMezo"
-            class="form-control me-2 w-auto"
-            placeholder="Keresés..."
-          />
-          <button type="submit" class="btn btn-outline-light">
-            Keresés
-          </button>
-        </form>
-
-        <!-- Mobilos kereső gomb -->
-        <div class="d-sm-none d-flex justify-content-start px-3">
-          <button
-            class="btn btn-outline-light"
-            onclick="toggleKeresosav()"
+    <!-- Fejléc + navbar -->
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark w-100">
+        <div class="container-fluid d-flex flex-nowrap">
+          <!-- Desktop kereső -->
+          <form
+            class="d-none d-sm-flex me-auto"
+            role="search"
+            onsubmit="event.preventDefault(); keresesInditasa();"
           >
-            <i class="fa fa-search"></i>
+            <input
+              type="text"
+              id="keresoMezo"
+              class="form-control me-2 w-auto"
+              placeholder="Keresés..."
+            />
+            <button type="submit" class="btn btn-outline-light">Keresés</button>
+          </form>
+
+          <!-- Mobil kereső gomb -->
+          <div class="d-sm-none d-flex justify-content-start px-3">
+            <button
+              class="btn btn-outline-light"
+              id="mobilKeresoBtn"
+              aria-controls="mobilKeresosav"
+              aria-expanded="true"
+              aria-label="Mobil keresősáv"
+            >
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+
+          <!-- Menü gomb (saját toggle, nem Bootstrap collapse) -->
+          <button
+            class="navbar-toggler ms-auto"
+            type="button"
+            id="hamburgerBtn"
+            aria-controls="menuPanel"
+            aria-expanded="false"
+            aria-label="Menü megnyitása"
+          >
+            <span class="navbar-toggler-icon"></span>
           </button>
         </div>
+      </nav>
 
-        <!-- Mobilos kereső sáv -->
-        <div
-          class="d-sm-none px-3"
-          id="mobilKeresosav"
-          style="display: none;"
-        >
-          <input
-            type="text"
-            id="keresoMezoMobil"
-            class="form-control my-2 w-auto"
-            placeholder="Írd be, amit keresel..."
-          />
-          <button
-            class="btn btn-primary mb-3"
-            onclick="keresesInditasa()"
-          >
-            Keresés indítása
-          </button>
-        </div>
-
-        <!-- Menü gomb -->
-        <button
-          class="navbar-toggler ms-auto"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mynavbar"
-          aria-controls="mynavbar"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+      <!-- Mobil keresősáv (mindig látszik; nincs inline display:none) -->
+      <div class="d-sm-none px-3" id="mobilKeresosav">
+        <input
+          type="text"
+          id="keresoMezoMobil"
+          class="form-control my-2 w-100"
+          placeholder="Írd be, amit keresel..."
+        />
+        <button class="btn btn-primary mb-3 w-100" onclick="keresesInditasa()">
+          Keresés indítása
         </button>
-
-        <!-- Menü elemek -->
-        <div class="collapse navbar-collapse" id="mynavbar">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="Kezdolap.html">Kezdőlap</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="rolunk.html">Rólunk</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Termékeink</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="kosar.html">
-                <i class="fa fa-shopping-cart"></i> Kosár
-                <span id="kosarDb">(0)</span>
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
-    </nav>
+    </header>
 
-    <!-- Oldal tartalom -->
+    <!-- Balról nyíló menüpanel a fejléc alatt (nem fix, normál flow) -->
+    <nav id="menuPanel" aria-hidden="true">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
+        <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="kosar.html">
+            <i class="fa fa-shopping-cart"></i> Kosár
+            <span id="kosarDb">(0)</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- Oldal tartalom – a menü nyitásakor lejjebb tolódik -->
     <main class="row">
       <header class="text-center col-lg-12 mt-3 mb-3">
         <h1>Termékeink</h1>
@@ -128,9 +188,7 @@
       <!-- Szűrési lista a fejléc alatt -->
       <aside id="szures" class="col-lg-12 mb-4 px-4">
         <div class="d-flex align-items-center justify-content-center">
-          <label for="kategoriak" class="fw-bold me-3">
-            Szűrés kategória szerint:
-          </label>
+          <label for="kategoriak" class="fw-bold me-3">Szűrés kategória szerint:</label>
           <select id="kategoriak" class="form-select w-auto">
             <option value="osszes">Összes</option>
             <option value="kiegészítők">Kiegészítők</option>
@@ -156,7 +214,7 @@
       </footer>
     </main>
 
-    <!-- 🔧 Bootstrap modál a „Megtekintés” gombhoz -->
+    <!-- Bootstrap modál a „Megtekintés” gombhoz -->
     <div
       class="modal fade"
       id="megtekintesModal"
@@ -166,7 +224,6 @@
     >
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <!-- Bal felső nyíl gomb + cím -->
           <div class="modal-header justify-content-start">
             <button
               type="button"
@@ -176,18 +233,47 @@
             >
               <i class="fa fa-arrow-left fa-lg"></i>
             </button>
-            <h5 class="modal-title ms-2" id="megtekintesModalLabel">
-              Termék megtekintése
-            </h5>
+            <h5 class="modal-title ms-2" id="megtekintesModalLabel">Termék megtekintése</h5>
           </div>
 
-          <!-- 🔑 Itt tölti be a main.js dinamikusan a tartalmat -->
           <div class="modal-body" id="modalBody"></div>
-
-          <!-- Footer elrejtve -->
           <div class="modal-footer d-none"></div>
         </div>
       </div>
     </div>
+
+    <!-- Működtető JS: menü és mobil kereső -->
+    <script>
+      // Menü: balról csúszik be a fejléc alatt, és a tartalmat lejjebb tolja
+      (function () {
+        const btn = document.getElementById('hamburgerBtn');
+        const panel = document.getElementById('menuPanel');
+
+        function toggleMenu() {
+          const isOpen = panel.classList.toggle('open');
+          panel.setAttribute('aria-hidden', (!isOpen).toString());
+          btn.setAttribute('aria-expanded', isOpen.toString());
+          btn.setAttribute('aria-label', isOpen ? 'Menü bezárása' : 'Menü megnyitása');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+
+        // Esc zárás
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && panel.classList.contains('open')) {
+            toggleMenu();
+          }
+        });
+      })();
+
+      // Mobil keresősáv: gomb fókuszt ad az inputra
+      (function () {
+        const btn = document.getElementById('mobilKeresoBtn');
+        const input = document.getElementById('keresoMezoMobil');
+        if (btn && input) {
+          btn.addEventListener('click', () => input.focus());
+        }
+      })();
+    </script>
   </body>
 </html>
