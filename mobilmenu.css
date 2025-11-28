@@ -1,31 +1,51 @@
 /* Mobilnézet finomhangolása – csak 576px alatt */
 @media (max-width: 576px) {
   
-  /* Fejléc: logó + kosár + hamburger egy sorban */
+  /* Fejléc: logó balra, hamburger jobbra */
   .navbar .container-fluid {
     flex-direction: row;
-    justify-content: space-between; /* logó balra, kosár középen, hamburger jobbra */
+    justify-content: space-between;
     align-items: center;
     padding: 10px 0;
   }
 
-  /* Menüelemek függőleges elrendezésben */
+  /* Menü balról nyíljon meg */
+  .navbar-collapse {
+    position: fixed;
+    top: 0;
+    left: 0;                  /* bal oldalról indul */
+    height: 100%;
+    width: 75%;               /* menü szélessége (állítható pl. 60–80%) */
+    background-color: #222;   /* háttérszín */
+    padding-top: 60px;        /* hely a logónak/hamburgernek */
+    transform: translateX(-100%); /* alapállapotban rejtve */
+    transition: transform 0.3s ease;
+    z-index: 9999;
+  }
+
+  /* amikor a menü nyitva van */
+  .navbar-collapse.show {
+    transform: translateX(0); /* belép balról */
+  }
+
+  /* Menüelemek függőlegesen */
   .navbar-collapse .navbar-nav {
-    flex-direction: column;    /* menüpontok oszlopban */
+    flex-direction: column;
     align-items: flex-start;
     width: 100%;
   }
 
   .navbar-nav .nav-item {
-    width: 100%;               /* minden elem teljes sor szélességű */
+    width: 100%;
   }
 
   .navbar-nav .nav-link {
     display: block;
-    width: 100%;               /* kitölti a sort */
-    padding: 10px 15px;        /* kényelmes kattintható terület */
+    width: 100%;
+    padding: 10px 15px;
     font-size: 1rem;
-    border-bottom: 1px solid #333333; /* vizuális elválasztás */
+    border-bottom: 1px solid #333333;
+    color: #fff;
   }
 
   .navbar-nav .nav-link:hover {
@@ -40,15 +60,14 @@
     margin-bottom: 10px;
   }
 
-  /* Kosár ikon mobilon is jól látható */
+  /* Kosár ikon */
   #kosarDb {
     font-weight: bold;
     color: #ffc107;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 10px 0;
   }
 
-  /* Mobil logó mérete */
+  /* Logó mérete */
   .navbar img {
     height: 50px;
   }
