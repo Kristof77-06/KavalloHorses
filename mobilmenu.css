@@ -1,10 +1,8 @@
-/* Mobilnézet finomhangolása – csak 576px alatt */
 @media (max-width: 576px) {
-  
   /* Navigációs sáv belső elrendezés */
   .navbar .container-fluid {
-    flex-direction: column;    /* függőleges elrendezés mobilon */
-    align-items: flex-start;
+    flex-direction: row;       /* logó + hamburger egy sorban */
+    align-items: center;
     padding-top: 10px;
     padding-bottom: 10px;
   }
@@ -12,13 +10,13 @@
   /* Keresőmező teljes szélességben mobilon */
   #keresoMezo,
   #keresoMezoMobil {
-    width: 100%;               /* teljes sor szélesség */
+    width: 100%;
     margin-bottom: 10px;
   }
 
   /* Mobil kereső gomb igazítása */
   #mobilKeresosav button {
-    width: 100%;               /* teljes sor szélesség */
+    width: 100%;
   }
 
   /* Menü gomb igazítása */
@@ -28,22 +26,22 @@
   }
 
   /* Menüelemek függőleges elrendezésben */
-  .navbar-nav {
-    flex-direction: column;    /* oszlopban egymás alatt */
+  .navbar-collapse .navbar-nav {
+    flex-direction: column;    /* csak a menüpontok legyenek oszlopban */
     align-items: flex-start;
     width: 100%;
   }
 
   .navbar-nav .nav-item {
-    width: 100%;               /* minden elem teljes sor szélességű */
+    width: 100%;
   }
 
   .navbar-nav .nav-link {
-    display: block;            /* teljes sorban kattintható */
-    width: 100%;               /* kitölti a sort */
-    padding: 10px 15px;        /* kényelmes kattintható terület */
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
     font-size: 1rem;
-    border-bottom: 1px solid #333333; /* vizuálisan elválasztja az elemeket */
+    border-bottom: 1px solid #333333;
   }
 
   .navbar-nav .nav-link:hover {
@@ -79,9 +77,6 @@
   header,
   article,
   footer {
-    padding-top: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    padding-left: 15px;
+    padding: 15px;
   }
 }
