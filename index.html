@@ -5,111 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Termékeink</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS (CDN) -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
 
-    <!-- Font Awesome ikonok -->
+    <!-- Font Awesome ikonok (CDN) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
-    <!-- jQuery (teljes verzió) -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <!-- Bootstrap JS (bundle) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Egyéni stíluslapok -->
+    <!-- Saját stíluslapok -->
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="mobilmenu.css" />
 
-    <!-- Célzott stílusok: nem fix, balról nyíló menü a fejléc alatt + mobil keresősáv mindig látszik -->
+    <!--
+      Menü-specifikus stílusok
+      (A kéréseid szerint a menü-stílusok a head-ben maradnak, nem tömörítve,
+      részletes kommentekkel és jól tagolt formában.)
+    -->
     <style>
-      /* Fejléc felül marad, alatta nyílik a menü */
-      header.site-header {
-        position: sticky;
-        top: 0;
-        z-index: 10000;
-        background: #0b0b0b;
-        border-bottom: 1px solid #181818;
-      }
-      header.site-header .container-fluid {
-        overflow: visible;
-      }
+      /* ============================================================
+         MENU PANEL STÍLUSOK
+         Ezek a szabályok kizárólag a #menuPanel és belső elemeihez
+         kapcsolódnak. A cél: a panel külön testvér elemként legyen a
+         header után, alapból rejtett, nyitáskor helyet foglaljon.
+         ============================================================ */
 
-      /* Mobil keresősáv: mindig látható, nincs inline rejtés */
-      #mobilKeresosav {
-        display: block;
-        padding: 8px 16px 12px 16px;
-        background: #0b0b0b;
-        border-top: 1px solid #181818;
-      }
-      #mobilKeresosav .form-control {
-        background: #fff;
-        color: #111;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-      }
-      #mobilKeresosav .form-control::placeholder {
-        color: #666;
-      }
-
-      /* Nem fix menüpanel a fejléc alatt: balról csúszik be, tartalmat lejjebb tolja */
+      /* Alapbeállítások a menüpanelhez
+         - display: block -> helyet foglal a dokumentumban
+         - position: relative -> ne legyen absolute/fixed, hogy a nyitás
+           lejjebb tolja a tartalmat
+         - overflow: hidden + max-height animáció -> sima nyitás/zárás
+      */
       #menuPanel {
-        position: relative;
+        box-sizing: border-box;
         width: 100%;
+        display: block;
+        position: relative;
+        overflow: hidden;
+        max-height: 0; /* alapból rejtve */
+        transition: max-height 320ms ease, transform 320ms ease;
+        transform: translateX(-6%); /* enyhe vizuális csúsztatás (opcionális) */
         background: #222;
         border-bottom: 1px solid #2a2a2a;
-        overflow: hidden;
-        transform: translateX(-100%);
-        max-height: 0;
-        transition: transform 0.3s ease, max-height 0.3s ease;
-        will-change: transform, max-height;
+        z-index: 50;
       }
+
+      /* Nyitott állapot: a vizuális csúsztatást engedélyezzük,
+         a tényleges max-height értéket JavaScript állítja be
+         (panel.style.maxHeight = panel.scrollHeight + 'px').
+      */
       #menuPanel.open {
         transform: translateX(0);
-        max-height: 80vh;
       }
+
+      /* Menü lista: oszlopos elrendezés, belső térközök */
       #menuPanel .navbar-nav {
         display: flex;
         flex-direction: column;
-        padding: 12px 10px;
-        gap: 6px;
+        gap: 8px;
+        padding: 12px 14px;
+        margin: 0;
+        list-style: none;
       }
+
+      /* Egyes menüpontok alapstílusa */
+      #menuPanel .nav-item {
+        margin: 0;
+      }
+
+      /* Linkek megjelenése a menüben */
       #menuPanel .nav-link {
         display: block;
         width: 100%;
-        padding: 12px 14px;
+        padding: 10px 12px;
+        color: #ffffff;
+        text-decoration: none;
         border-radius: 6px;
-        color: #fff;
-        border: 1px solid #333;
         background: #1a1a1a;
-      }
-      #menuPanel .nav-link:hover {
-        background: #242424;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        transition: background 160ms ease, color 160ms ease;
       }
 
-      /* Mobil finomhangolás */
-      @media (max-width: 576px) {
-        header.site-header .navbar .container-fluid {
-          padding: 10px 16px;
+      /* Hover és fókusz állapotok a jobb hozzáférhetőségért */
+      #menuPanel .nav-link:hover,
+      #menuPanel .nav-link:focus {
+        background: #2a2a2a;
+        color: #ffffff;
+        outline: none;
+      }
+
+      /* Kosár számláló stílusa a menüben */
+      #menuPanel #kosarDb {
+        margin-left: 6px;
+        color: #ffd;
+        font-weight: 600;
+      }
+
+      /* Mobil finomhangolás: nagyobb érintési felület, olvashatóbb betűméret */
+      @media (max-width: 768px) {
+        #menuPanel .navbar-nav {
+          padding: 10px;
         }
+        #menuPanel .nav-link {
+          padding: 12px 14px;
+          font-size: 16px;
+        }
+      }
+
+      /* Segédruletták: pointer-events a aria-hidden alapján,
+         hogy zárt állapotban a panel ne fogjon el kattintásokat.
+      */
+      #menuPanel[aria-hidden="true"] {
+        pointer-events: none;
+      }
+      #menuPanel[aria-hidden="false"] {
+        pointer-events: auto;
       }
     </style>
 
-    <!-- Modul alapú JavaScript (alkalmazás logika) -->
-    <script type="module" src="main.js"></script>
+    <!-- Ha van modul logika, betölthető defer-del -->
+    <script type="module" src="main.js" defer></script>
   </head>
   <body>
-    <!-- Fejléc + navbar -->
+    <!-- ============================================================
+         FEJLÉC ÉS NAVBAR
+         A fejléc sticky viselkedését a style.css-ben vagy mobilmenu.css-ben
+         kezeld; itt a HTML szerkezet részletesen, tagoltan.
+         ============================================================ -->
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-dark w-100">
-        <div class="container-fluid d-flex flex-nowrap">
-          <!-- Desktop kereső -->
+        <div class="container-fluid d-flex flex-nowrap align-items-center">
+          <!-- Desktop kereső (asztali nézetben látható) -->
           <form
             class="d-none d-sm-flex me-auto"
             role="search"
@@ -124,20 +154,20 @@
             <button type="submit" class="btn btn-outline-light">Keresés</button>
           </form>
 
-          <!-- Mobil kereső gomb -->
+          <!-- Mobil kereső gomb (kis képernyőn látható) -->
           <div class="d-sm-none d-flex justify-content-start px-3">
             <button
               class="btn btn-outline-light"
               id="mobilKeresoBtn"
               aria-controls="mobilKeresosav"
-              aria-expanded="true"
+              aria-expanded="false"
               aria-label="Mobil keresősáv"
             >
               <i class="fa fa-search"></i>
             </button>
           </div>
 
-          <!-- Menü gomb (saját toggle, nem Bootstrap collapse) -->
+          <!-- Menü gomb (saját toggle, nem a Bootstrap collapse-t használjuk) -->
           <button
             class="navbar-toggler ms-auto"
             type="button"
@@ -151,8 +181,8 @@
         </div>
       </nav>
 
-      <!-- Mobil keresősáv (mindig látszik; nincs inline display:none) -->
-      <div class="d-sm-none px-3" id="mobilKeresosav">
+      <!-- Mobil keresősáv: a fejléc alatt, jelenleg mindig látható mobilon -->
+      <div class="d-sm-none px-3" id="mobilKeresosav" aria-hidden="false">
         <input
           type="text"
           id="keresoMezoMobil"
@@ -165,27 +195,46 @@
       </div>
     </header>
 
-    <!-- Balról nyíló menüpanel a fejléc után, külön testvér elemként -->
+    <!--
+      MENÜPANEL
+      Fontos: a panel KÜLÖN testvér elemként legyen a header után, így a nyitás
+      lejjebb tolja a fő tartalmat. aria-hidden kezeli a hozzáférhetőséget.
+    -->
     <nav id="menuPanel" aria-hidden="true">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
-        <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
-        <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="Kezdolap.html">Kezdőlap</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="rolunk.html">Rólunk</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Termékeink</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="kosar.html">
-            <i class="fa fa-shopping-cart"></i> Kosár
+            <i class="fa fa-shopping-cart"></i>
+            Kosár
             <span id="kosarDb">(0)</span>
           </a>
         </li>
       </ul>
     </nav>
-    <!-- Oldal tartalom – a menü nyitásakor lejjebb tolódik -->
+    <!-- ============================================================
+         NAVBAR (más fájlokban)
+         A navbar kódja más fájlokban is megtalálható, a kéréseid szerint
+         részletes kommentekkel és jól tagolt formában.
+         ============================================================ -->
+    <!-- ============================================================
+         FŐ TARTALOM
+         A menü nyitásakor ennek a tartalomnak lejjebb kell tolódnia.
+         ============================================================ -->
     <main class="row">
       <header class="text-center col-lg-12 mt-3 mb-3">
         <h1>Termékeink</h1>
       </header>
 
-      <!-- Szűrési lista a fejléc alatt -->
+      <!-- Szűrési rész -->
       <aside id="szures" class="col-lg-12 mb-4 px-4">
         <div class="d-flex align-items-center justify-content-center">
           <label for="kategoriak" class="fw-bold me-3">Szűrés kategória szerint:</label>
@@ -198,14 +247,16 @@
         </div>
       </aside>
 
+      <!-- Keresési eredmények / segédblokkok -->
       <aside id="keres" class="col-lg-12 mb-3"></aside>
-
       <article class="col-lg-12"></article>
 
+      <!-- Terméklista helye (dinamikusan töltődik a main.js által) -->
       <aside id="termekek" class="col-lg-12 px-4">
         <!-- Ide tölti be a main.js a termekekLISTA tartalmát -->
       </aside>
 
+      <!-- Lábléc -->
       <footer class="col-lg-12 text-center mt-4 bg-light py-4">
         <div class="container">
           <p class="mb-1">© 2025 Webshop - Minden jog fenntartva</p>
@@ -214,7 +265,7 @@
       </footer>
     </main>
 
-    <!-- Bootstrap modál a „Megtekintés” gombhoz -->
+    <!-- Megtekintés modal (Bootstrap modal) -->
     <div
       class="modal fade"
       id="megtekintesModal"
@@ -236,44 +287,112 @@
             <h5 class="modal-title ms-2" id="megtekintesModalLabel">Termék megtekintése</h5>
           </div>
 
-          <div class="modal-body" id="modalBody"></div>
-          <div class="modal-footer d-none"></div>
+          <div class="modal-body" id="modalBody">
+            <!-- Dinamikus tartalom ide -->
+          </div>
+
+          <div class="modal-footer d-none">
+            <!-- Ha szükséges, ide jöhetnek a gombok -->
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Működtető JS: menü és mobil kereső -->
+    <!-- Külső JS fájlok (a body végén, hogy a DOM már készen legyen) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--
+      Javított menü toggle logika
+      - Nyitáskor a panel.style.maxHeight = panel.scrollHeight + 'px' beállítja
+        a tényleges magasságot, így a panel helyet foglal és a tartalom lejjebb tolódik.
+      - Záráskor 0-ra állítjuk a maxHeight-et, és eltávolítjuk az .open osztályt.
+      - ResizeObserver frissíti a maxHeight-et, ha a panel tartalma dinamikusan változik.
+    -->
     <script>
-      // Menü: balról csúszik be a fejléc alatt, és a tartalmat lejjebb tolja
       (function () {
+        // Gomb és panel lekérése
         const btn = document.getElementById('hamburgerBtn');
         const panel = document.getElementById('menuPanel');
 
-        function toggleMenu() {
-          const isOpen = panel.classList.toggle('open');
-          panel.setAttribute('aria-hidden', (!isOpen).toString());
-          btn.setAttribute('aria-expanded', isOpen.toString());
-          btn.setAttribute('aria-label', isOpen ? 'Menü bezárása' : 'Menü megnyitása');
+        // Megnyitás: osztály hozzáadása + tényleges magasság beállítása
+        function openPanel() {
+          if (!panel) return;
+          panel.classList.add('open');
+
+          // A scrollHeight a belső tartalom teljes magassága (paddinggal együtt)
+          // Ezt állítjuk be maxHeight-ként, hogy a transition működjön és a
+          // dokumentum magassága is növekedjen.
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+
+          // ARIA attribútumok a hozzáférhetőségért
+          panel.setAttribute('aria-hidden', 'false');
+          if (btn) {
+            btn.setAttribute('aria-expanded', 'true');
+            btn.setAttribute('aria-label', 'Menü bezárása');
+          }
         }
 
+        // Bezárás: először rögzítjük a jelenlegi magasságot, majd 0-ra állítjuk
+        function closePanel() {
+          if (!panel) return;
+
+          // Rögzítjük a jelenlegi magasságot, hogy a transition sima legyen
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+
+          // requestAnimationFrame biztosítja, hogy a böngésző regisztrálja a
+          // kezdeti értéket, majd a következő frame-en állítjuk 0-ra.
+          requestAnimationFrame(() => {
+            panel.style.maxHeight = '0px';
+          });
+
+          panel.classList.remove('open');
+          panel.setAttribute('aria-hidden', 'true');
+          if (btn) {
+            btn.setAttribute('aria-expanded', 'false');
+            btn.setAttribute('aria-label', 'Menü megnyitása');
+          }
+        }
+
+        // Toggle helper
+        function toggleMenu() {
+          if (!panel) return;
+          if (panel.classList.contains('open')) {
+            closePanel();
+          } else {
+            openPanel();
+          }
+        }
+
+        // Események regisztrálása, ha a DOM elemek léteznek
         if (btn && panel) {
           btn.addEventListener('click', toggleMenu);
+
+          // Ha a panel tartalma dinamikusan változik (pl. JS tölti be a menüt),
+          // a ResizeObserver frissíti a maxHeight-et nyitott állapotban.
+          if ('ResizeObserver' in window) {
+            new ResizeObserver(() => {
+              if (panel.classList.contains('open')) {
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+              }
+            }).observe(panel);
+          }
         }
 
-        // Esc zárás
+        // Esc billentyűvel zárás
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && panel.classList.contains('open')) {
-            toggleMenu();
+          if (e.key === 'Escape' && panel && panel.classList.contains('open')) {
+            closePanel();
           }
         });
-      })();
 
-      // Mobil keresősáv: gomb fókuszt ad az inputra
-      (function () {
-        const btn = document.getElementById('mobilKeresoBtn');
-        const input = document.getElementById('keresoMezoMobil');
-        if (btn && input) {
-          btn.addEventListener('click', () => input.focus());
+        // Mobil kereső gomb: fókusz az inputra (jelenleg csak fókusz)
+        const mobilBtn = document.getElementById('mobilKeresoBtn');
+        const mobilInput = document.getElementById('keresoMezoMobil');
+        if (mobilBtn && mobilInput) {
+          mobilBtn.addEventListener('click', () => {
+            mobilInput.focus();
+          });
         }
       })();
     </script>
