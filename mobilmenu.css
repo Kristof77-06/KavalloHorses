@@ -1,4 +1,6 @@
+/* Mobilnézet finomhangolása – csak 576px alatt */
 @media (max-width: 576px) {
+  
   /* Fejléc: logó balra, hamburger jobbra */
   .navbar .container-fluid {
     flex-direction: row;
@@ -13,18 +15,21 @@
     top: 0;
     left: 0;                  /* bal oldalról indul */
     right: auto;
-    height: 100%;
-    width: 75%;
-    background-color: #222;
-    padding-top: 60px;
+    width: 75%;               /* panel szélessége */
+    background-color: #222;   /* panel háttere */
+    padding: 60px 15px 15px 15px;
     transform: translateX(-100%); /* alapállapotban rejtve */
     transition: transform 0.3s ease;
     z-index: 9999;
+
+    height: auto;             /* csak a tartalom magassága */
+    min-height: 100vh;        /* ha kevés tartalom van, kitölti a képernyőt */
   }
   .navbar-collapse.show {
     transform: translateX(0); /* belép balról */
   }
 
+  /* Menüelemek függőlegesen */
   .navbar-collapse .navbar-nav {
     flex-direction: column;
     align-items: flex-start;
@@ -51,18 +56,21 @@
     top: 0;
     right: 0;                 /* jobb oldalról indul */
     left: auto;
-    height: 100%;
     width: 75%;
-    background-color: #222;
+    background-color: #222;   /* panel háttere */
     padding: 60px 15px 15px 15px;
     transform: translateX(100%); /* alapállapotban rejtve */
     transition: transform 0.3s ease;
     z-index: 9999;
+
+    height: auto;             /* csak a tartalom magassága */
+    min-height: 100vh;        /* ha kevés tartalom van, kitölti a képernyőt */
   }
   #mobilKeresosav.show {
     transform: translateX(0); /* belép jobbról */
   }
 
+  /* Keresőmező és gomb a kereső panelben */
   #keresoMezo,
   #keresoMezoMobil,
   #mobilKeresosav button {
