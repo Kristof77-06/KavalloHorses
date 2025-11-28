@@ -1,6 +1,4 @@
-/* Mobilnézet finomhangolása – csak 576px alatt */
 @media (max-width: 576px) {
-  
   /* Fejléc: logó balra, hamburger jobbra */
   .navbar .container-fluid {
     flex-direction: row;
@@ -9,36 +7,32 @@
     padding: 10px 0;
   }
 
-  /* Menü balról nyíljon meg */
+  /* Bal oldali hamburger menü */
   .navbar-collapse {
     position: fixed;
     top: 0;
     left: 0;                  /* bal oldalról indul */
+    right: auto;
     height: 100%;
-    width: 75%;               /* menü szélessége (állítható pl. 60–80%) */
-    background-color: #222;   /* háttérszín */
-    padding-top: 60px;        /* hely a logónak/hamburgernek */
+    width: 75%;
+    background-color: #222;
+    padding-top: 60px;
     transform: translateX(-100%); /* alapállapotban rejtve */
     transition: transform 0.3s ease;
     z-index: 9999;
   }
-
-  /* amikor a menü nyitva van */
   .navbar-collapse.show {
     transform: translateX(0); /* belép balról */
   }
 
-  /* Menüelemek függőlegesen */
   .navbar-collapse .navbar-nav {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
   }
-
   .navbar-nav .nav-item {
     width: 100%;
   }
-
   .navbar-nav .nav-link {
     display: block;
     width: 100%;
@@ -47,12 +41,28 @@
     border-bottom: 1px solid #333333;
     color: #fff;
   }
-
   .navbar-nav .nav-link:hover {
     background-color: #444444;
   }
 
-  /* Keresőmező és gomb a menüben */
+  /* Jobb oldali kereső panel */
+  #mobilKeresosav {
+    position: fixed;
+    top: 0;
+    right: 0;                 /* jobb oldalról indul */
+    left: auto;
+    height: 100%;
+    width: 75%;
+    background-color: #222;
+    padding: 60px 15px 15px 15px;
+    transform: translateX(100%); /* alapállapotban rejtve */
+    transition: transform 0.3s ease;
+    z-index: 9999;
+  }
+  #mobilKeresosav.show {
+    transform: translateX(0); /* belép jobbról */
+  }
+
   #keresoMezo,
   #keresoMezoMobil,
   #mobilKeresosav button {
@@ -70,11 +80,6 @@
   /* Logó mérete */
   .navbar img {
     height: 50px;
-  }
-
-  /* Mobil kereső sáv margóval */
-  #mobilKeresosav {
-    margin: 10px 0;
   }
 
   /* Fejléc, tartalom, lábléc mobil padding */
