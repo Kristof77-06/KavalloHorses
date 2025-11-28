@@ -18,7 +18,7 @@
 
   /* Mobil kereső gomb igazítása */
   #mobilKeresosav button {
-    width: 100%;
+    width: auto;
   }
 
   /* Menü gomb igazítása */
@@ -37,16 +37,11 @@
   width: auto;
 }
 
-  .navbar-nav .nav-item {
-    width: 100%;
-  }  .navbar-nav .nav-link {
+.navbar-nav .nav-link {
     display: block;
-    width: 100%;
-    padding-top: 10px;
-    padding-right: 15px;
-    padding-bottom: 10px;
-    padding-left: 15px;
-    font-size: 1rem;
+    width: auto;          /* javítva */
+    padding: 8px 10px;    /* kicsit kisebb, hogy elférjen */
+    font-size: 0.9rem;    /* mobilon kompaktabb */  
     border-bottom: 1px solid #333333;
   }
 
