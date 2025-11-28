@@ -64,15 +64,15 @@
         width: 100%;
         background: #222;
         border-bottom: 1px solid #2a2a2a;
-        overflow: hidden;              /* az animált magasság miatt */
-        transform: translateX(-100%);  /* alapállapot: balra kint */
-        max-height: 0;                 /* zárt állapotban ne foglaljon helyet */
+        overflow: hidden;
+        transform: translateX(-100%);
+        max-height: 0;
         transition: transform 0.3s ease, max-height 0.3s ease;
         will-change: transform, max-height;
       }
       #menuPanel.open {
-        transform: translateX(0);      /* balról becsúszik */
-        max-height: 80vh;              /* helyet foglal → tartalom lejjebb tolódik */
+        transform: translateX(0);
+        max-height: 80vh;
       }
       #menuPanel .navbar-nav {
         display: flex;
@@ -165,7 +165,7 @@
       </div>
     </header>
 
-    <!-- Balról nyíló menüpanel a fejléc alatt (nem fix, normál flow) -->
+    <!-- Balról nyíló menüpanel a fejléc után, külön testvér elemként -->
     <nav id="menuPanel" aria-hidden="true">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
@@ -256,7 +256,9 @@
           btn.setAttribute('aria-label', isOpen ? 'Menü bezárása' : 'Menü megnyitása');
         }
 
-        btn.addEventListener('click', toggleMenu);
+        if (btn && panel) {
+          btn.addEventListener('click', toggleMenu);
+        }
 
         // Esc zárás
         document.addEventListener('keydown', (e) => {
