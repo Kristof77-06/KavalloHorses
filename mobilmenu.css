@@ -17,13 +17,13 @@
     right: auto;
     width: 75%;               /* panel szélessége */
     background-color: #222;   /* panel háttere */
-    padding: 60px 15px 15px 15px;
+    padding: 20px 15px;       /* kompaktabb padding */
     transform: translateX(-100%); /* alapállapotban rejtve */
     transition: transform 0.3s ease;
     z-index: 9999;
 
     height: auto;             /* csak a tartalom magassága */
-    min-height: 100vh;        /* ha kevés tartalom van, kitölti a képernyőt */
+    min-height: unset;        /* ne legyen kötelező teljes képernyő */
   }
   .navbar-collapse.show {
     transform: translateX(0); /* belép balról */
@@ -58,13 +58,13 @@
     left: auto;
     width: 75%;
     background-color: #222;   /* panel háttere */
-    padding: 60px 15px 15px 15px;
+    padding: 20px 15px;       /* kompaktabb padding */
     transform: translateX(100%); /* alapállapotban rejtve */
     transition: transform 0.3s ease;
     z-index: 9999;
 
     height: auto;             /* csak a tartalom magassága */
-    min-height: unset;        /* ha kevés tartalom van, kitölti a képernyőt */
+    min-height: unset;        /* ne legyen kötelező teljes képernyő */
   }
   #mobilKeresosav.show {
     transform: translateX(0); /* belép jobbról */
