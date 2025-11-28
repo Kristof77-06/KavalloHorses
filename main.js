@@ -65,7 +65,11 @@ function initMegtekintesEsemeny() {
 
 // --- Keresés ---
 function getKeresoszo() {
-  const mezok = Array.from(document.querySelectorAll("#keresoMezo"));
+  const mezok = [
+    document.getElementById("keresoMezo"),
+    document.getElementById("keresoMezoMobil")
+  ].filter(Boolean);
+
   for (const mezo of mezok) {
     const v = (mezo.value || "").toLowerCase().trim();
     if (v) return v;
@@ -107,10 +111,8 @@ function initSzures() {
 function toggleKeresosav() {
   const sav = document.getElementById("mobilKeresosav");
   if (!sav) return;
-  const jelenlegi = sav.style.display;
-  sav.style.display = (jelenlegi === "none" || jelenlegi === "") ? "block" : "none";
+  sav.classList.toggle("open");
 }
-
 // --- Kosár számláló ---
 let kosarDb = 0;
 function kosarhozAdas(termekNev, opciok = {}) {
@@ -119,6 +121,7 @@ function kosarhozAdas(termekNev, opciok = {}) {
   if (kijelzo) kijelzo.textContent = `(${kosarDb})`;
   console.log(`Kosárba: ${termekNev}, beállítások:`, opciok);
 }
+
 // --- Modál megnyitása (részletes leírás, termékenként eltérő felosztás) ---
 function megnyitMegtekintesModal(termek) {
   const modalBody = document.getElementById("modalBody");
@@ -226,11 +229,16 @@ function megnyitMegtekintesModal(termek) {
           <option value="zöld">Zöld</option>
         </select>
       </div>
-      <button type="button" class="btn btn-success"
-        onclick="kosarhozAdas('${termek.nev}', { szin: document.getElementById('szinValaszto').value })">
-        Kosárba
-      </button>
+      <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
     `;
+
+    const kosarBtn = modalBody.querySelector("#kosarBtn");
+    kosarBtn.addEventListener("click", () => {
+      const szin = modalBody.querySelector("#szinValaszto").value;
+      kosarhozAdas(termek.nev, { szin });
+      const modalElem = document.getElementById("megtekintesModal");
+      bootstrap.Modal.getOrCreateInstance(modalElem).hide();
+    });
   }
 
   // --- Csomagok ---
@@ -253,10 +261,15 @@ function megnyitMegtekintesModal(termek) {
         </div>
       </div>
       <p class="fw-bold mt-3">${termek.ar} Ft</p>
-      <button type="button" class="btn btn-success" onclick="kosarhozAdas('${termek.nev}')">
-        Kosárba
-      </button>
+      <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
     `;
+
+    const kosarBtn = modalBody.querySelector("#kosarBtn");
+    kosarBtn.addEventListener("click", () => {
+      kosarhozAdas(termek.nev);
+      const modalElem = document.getElementById("megtekintesModal");
+      bootstrap.Modal.getOrCreateInstance(modalElem).hide();
+    });
   }
 
   // --- Alapértelmezett ---
@@ -266,10 +279,15 @@ function megnyitMegtekintesModal(termek) {
       <h5>${termek.nev}</h5>
       <p>${termek.reszletesLeiras || termek.leiras}</p>
       <p class="fw-bold">${termek.ar} Ft</p>
-      <button type="button" class="btn btn-success" onclick="kosarhozAdas('${termek.nev}')">
-        Kosárba
-      </button>
+      <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
     `;
+
+    const kosarBtn = modalBody.querySelector("#kosarBtn");
+    kosarBtn.addEventListener("click", () => {
+      kosarhozAdas(termek.nev);
+      const modalElem = document.getElementById("megtekintesModal");
+      bootstrap.Modal.getOrCreateInstance(modalElem).hide();
+    });
   }
 
   // --- Modál megnyitása ---
@@ -279,17 +297,4 @@ function megnyitMegtekintesModal(termek) {
   modal.show();
 }
 
-// --- Inicializálás ---
-function init() {
-  megjelenitTermekek(termekekLISTA);
-  initSzures();
-  initMegtekintesEsemeny();
-}
-
-// Globális elérhetőség
-window.keresesInditasa = keresesInditasa;
-window.toggleKeresosav = toggleKeresosav;
-window.kosarhozAdas = kosarhozAdas;
-
-// Indítás
-init();
+// --- Inicializ
