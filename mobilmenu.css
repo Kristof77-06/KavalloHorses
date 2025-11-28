@@ -7,6 +7,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
+    overflow: visible; /* ne vágja le a keresősávot */
   }
 
   /* Bal oldali hamburger menü */
@@ -20,7 +21,7 @@
     padding: 20px 15px;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    z-index: 9999;
+    z-index: 9999;           /* overlay réteg */
 
     height: auto;
     min-height: unset;
@@ -50,15 +51,15 @@
     background-color: #444444;
   }
 
-  /* Mobil kereső sáv — mindig látszódjon */
+  /* Mobil kereső sáv — mindig látszódjon, a menü fölött legyen */
   #mobilKeresosav {
-    position: relative;       /* ne legyen fix panel */
-    width: 100%;              /* teljes sor szélesség */
+    position: relative;       /* külön stacking context */
+    width: 100%;
     background-color: transparent;
     padding: 10px 0;
-    transform: none;          /* ne tolja ki a képernyőről */
+    transform: none;
     transition: none;
-    z-index: auto;
+    z-index: 10000;           /* .navbar-collapse (9999) fölé emelve */
 
     height: auto;
     min-height: unset;
@@ -68,11 +69,20 @@
   #keresoMezo,
   #keresoMezoMobil,
   #mobilKeresosav button {
-    display: block;           /* ténylegesen megjelenjen */
+    display: block !important;   /* biztos megjelenés */
     width: 100%;
     margin-bottom: 10px;
-    visibility: visible;
-    opacity: 1;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Kontraszt a keresőmezőn, hogy ne tűnjön el vizuálisan */
+  #mobilKeresosav input {
+    background: #fff;
+    color: #111;
+  }
+  #mobilKeresosav input::placeholder {
+    color: #666;
   }
 
   /* Kosár ikon */
