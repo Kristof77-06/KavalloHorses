@@ -3,6 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+      integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mobilmenu.css" />
+    <script type="module" src="main.js"></script>
+    <title>Rólunk</title>
+  </head>
+  <body>
+
+    <!-- Teljes szélességű menüsáv -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark col-12">
+      <div class="container-fluid">
+
+        <!-- Gépi keresőmező -->
+        <form class="d-none d-sm-flex me-auto" role="search" onsubmit="event.preventDefault(); keresesInditasa();">
+          <input
+            type="text"
+            id="keresoMezo"
+            class="form-control me-2"
+            placeholder="Keresés..."
+          />
+          <button
+            type="submit"
+            class="btn btn-outline-light"
+          >
+            Keresés
+          </button>
+        </form>
+
+        <!-- Mobilos kereső gomb -->
+        <div class="d-sm-none d-flex justify-content-start px-3 mt-2">
+          <button
+            class="btn btn-outline-light"
+            onclick="toggleKeresosav()"
+          >
+            <!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kavallo Horses – Rólunk</title>
 
     <!-- Bootstrap CSS -->
@@ -143,6 +196,127 @@
           <p class="mb-1">Kézzel készült termékek, szeretettel</p>
         </div>
       </footer>
+    </main>
+  </body>
+</html>
+          </button>
+        </div>
+
+        <!-- Mobilos kereső sáv -->
+        <div
+          id="mobilKeresosav"
+          class="d-sm-none px-3"
+          style="display: none;"
+        >
+          <input
+            type="text"
+            id="mobilKeresoMezo"
+            class="form-control my-2"
+            placeholder="Írd be, amit keresel..."
+          />
+          <button
+            class="btn btn-primary mb-3"
+            onclick="keresesInditasa()"
+          >
+            Keresés indítása
+          </button>
+        </div>
+
+        <!-- Menü gomb -->
+        <button
+          class="navbar-toggler ms-auto"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mynavbar"
+          aria-controls="mynavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menü elemek -->
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="Kezdolap.html">Kezdőlap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="rolunk.html">Rólunk</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Termékeink</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="kosar.html">
+              <i class="fa fa-shopping-cart"></i> Kosár <span id="kosarDb">(0)</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="row">
+
+      <header class="text-center col-lg-12">
+        <h1>Rólunk</h1>
+      </header>
+
+      <div class="col-lg-4 px-4"> 
+        <br />
+        <br />
+        <br />
+        <br />
+        <p>
+          A Kavallo Horses 2025 nyarán született meg abból a szenvedélyből, amely kilenc éve határozza meg mindennapjaimat: a lovaglás iránti elkötelezettségből, a versenyek eleganciájából és a kézműves alkotás öröméből. A márka célja, hogy a lovasok és lovaik ne csupán teljesítményükkel, hanem megjelenésükkel is emlékezetesek legyenek – egyedi, stílusos kiegészítőkkel, amelyek méltóak a versenypálya világához.
+        </p>
+        <p>
+          Minden termékem saját kézzel készül, gondos odafigyeléssel és kifinomult ízléssel. A Kavallo Horses kiegészítők nem csupán szépek – rugalmasak, tartósak, és úgy lettek megalkotva, hogy a legnagyobb igénybevétel mellett is megőrizzék formájukat és eleganciájukat. A hazai gyártás számomra nem csupán választás, hanem értékrend: minden darabban ott rejlik a magyar kézművesség precizitása és lelke.
+        </p>
+      </div>
+
+      <div class="col-lg-12 px-4"> 
+        <p>
+          Lovas pályafutásom során két évet versenyeztem, két évet lovastornáztam, és immár négy éve a díjlovaglás világában mélyítem tudásomat. Ez az út tanított meg arra, hogy a részletek számítanak – a mozdulatban, a felszerelésben, a megjelenésben. A Kavallo Horses ezt az érzékenységet és kifinomultságot viszi tovább minden egyes termékében.
+        </p>
+        <p>
+          A márka mögött egy olyan vízió áll, amely a divat és a funkcionalitás találkozásából születik. A kollekciók tervezésénél a kortárs stílus, a klasszikus elegancia és a lovas világ sajátos ritmusa inspirál. A célom, hogy minden lovas megtalálja azt a kiegészítőt, amely nemcsak illik hozzá, hanem kiemeli egyéniségét – legyen szó versenyről, edzésről vagy egy nyugodt délutáni lovaglásról.
+        </p>
+        <p>
+          A Kavallo Horses nem csupán márka – ez egy életérzés. Egy világ, ahol a lovas és lova együtt léphet be az elegancia és az önkifejezés tereibe.
+        </p>
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
+
+      <div class="col-12 px-4">
+        <h2 class="text-center mt-4">Elérhetőségek</h2>
+        <ul class="list-unstyled">
+          <li><strong>Telefonszám:</strong> Hamarosan</li>
+          <li><strong>E-mail:</strong> Hamarosan</li>
+          <li><strong>Instagram:</strong> Hamarosan</li>
+          <li><strong>TikTok:</strong> Hamarosan</li>
+        </ul>
+      </div>
+
+      <footer class="col-lg-12 text-center mt-4">
+        <i style="font-size: 24px">
+
+        </i>
+         <!-- Lábléc szakasz -->
+      
+        <i style="font-size: 24px">
+     
+        </i>
+      <footer class="col-lg-12 text-center mt-4 bg-light py-4">
+        <div class="container">
+          <p class="mb-1">© 2025 Webshop - Minden jog fenntartva</p>
+          <p class="mb-1">Kézzel készült termékek, szeretettel</p>
+        </div>
+      </footer>
+
     </main>
   </body>
 </html>

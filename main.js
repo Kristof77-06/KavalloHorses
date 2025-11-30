@@ -1,11 +1,16 @@
 import { termekekLISTA } from "./termekek.js";
 
-// --- Kép fallback ---
+/* ============================================================
+   Kép forrás fallback
+   ============================================================ */
 function kepForras(termek) {
-  return termek.kep && termek.kep.trim() !== "" ? termek.kep : "img/placeholder.jpg";
+  const src = (termek.kep || "").trim();
+  return src !== "" ? src : "./kepek/placeholder.png";
 }
 
-// --- Termékek megjelenítése (kártyák) ---
+/* ============================================================
+   Termékek megjelenítése (kártyák)
+   ============================================================ */
 function megjelenitTermekek(lista) {
   const kontener = document.getElementById("termekek");
   if (!kontener) return;
@@ -22,17 +27,26 @@ function megjelenitTermekek(lista) {
     const kartya = document.createElement("div");
     kartya.className = "card h-100";
 
-    const arMegjelenites = termek.ar
-      ? `${termek.ar} Ft`
-      : termek.arak
-      ? Object.values(termek.arak).join(" - ") + " Ft"
-      : "";
+    const arMegjelenites = (() => {
+      if (termek.ar && String(termek.ar).trim() !== "") {
+        return `${termek.ar} Ft`;
+      }
+      if (termek.arak && typeof termek.arak === "object") {
+        const ertekek = Object.values(termek.arak);
+        if (ertekek.length) {
+          const min = Math.min(...ertekek);
+          const max = Math.max(...ertekek);
+          return min === max ? `${min} Ft` : `${min} - ${max} Ft`;
+        }
+      }
+      return "";
+    })();
 
     kartya.innerHTML = `
       <img src="${kepForras(termek)}" class="card-img-top" alt="${termek.nev}" />
       <div class="card-body d-flex flex-column justify-content-between">
         <h5 class="card-title">${termek.nev}</h5>
-        <p class="card-text">${termek.leiras}</p>
+        <p class="card-text">${termek.leiras || ""}</p>
         <div class="d-flex justify-content-between align-items-center mt-auto">
           <p class="fw-bold mb-0">${arMegjelenites}</p>
           <button type="button" class="btn btn-dark btn-sm btn-megtekintes" data-nev="${termek.nev}">
@@ -49,7 +63,9 @@ function megjelenitTermekek(lista) {
   kontener.appendChild(sor);
 }
 
-// --- Eseménydelegálás a gombokra ---
+/* ============================================================
+   Eseménydelegálás a "Megtekintés" gombokra
+   ============================================================ */
 function initMegtekintesEsemeny() {
   const kontener = document.getElementById("termekek");
   if (!kontener) return;
@@ -63,11 +79,13 @@ function initMegtekintesEsemeny() {
   });
 }
 
-// --- Keresés ---
+/* ============================================================
+   Keresés (desktop + mobil)
+   ============================================================ */
 function getKeresoszo() {
   const mezok = [
     document.getElementById("keresoMezo"),
-    document.getElementById("keresoMezoMobil")
+    document.getElementById("keresoMezoMobil"),
   ].filter(Boolean);
 
   for (const mezo of mezok) {
@@ -90,8 +108,9 @@ function keresesInditasa() {
   );
   megjelenitTermekek(talalatok);
 }
-
-// --- Szűrés ---
+/* ============================================================
+   Szűrés (kategóriák szerint)
+   ============================================================ */
 function initSzures() {
   const select = document.getElementById("kategoriak");
   if (!select) return;
@@ -107,194 +126,115 @@ function initSzures() {
   });
 }
 
-// --- Mobil keresősáv ---
-function toggleKeresosav() {
-  const sav = document.getElementById("mobilKeresosav");
-  if (!sav) return;
-  sav.classList.toggle("open");
-}
-// --- Kosár számláló ---
+/* ============================================================
+   Kosár számláló
+   ============================================================ */
 let kosarDb = 0;
-function kosarhozAdas(termekNev, opciok = {}) {
-  kosarDb++;
+
+function frissitKosarDb() {
   const kijelzo = document.getElementById("kosarDb");
   if (kijelzo) kijelzo.textContent = `(${kosarDb})`;
-  console.log(`Kosárba: ${termekNev}, beállítások:`, opciok);
 }
 
-// --- Modál megnyitása (részletes leírás, termékenként eltérő felosztás) ---
+function kosarhozAdas(termekNev, opciok = {}) {
+  kosarDb++;
+  frissitKosarDb();
+  console.log(`Kosárba: ${termekNev}`, opciok);
+}
+
+/* ============================================================
+   Megtekintés modal tartalom és megnyitás
+   ============================================================ */
 function megnyitMegtekintesModal(termek) {
   const modalBody = document.getElementById("modalBody");
   if (!modalBody) return;
 
-  // előző tartalom törlése
   modalBody.innerHTML = "";
 
-  // --- Levendulás zsák ---
-  if (termek.nev === "Levendulás zsák") {
-    modalBody.innerHTML = `
-      <div class="row">
-        <!-- Bal oldal -->
-        <div class="col-md-8 d-flex flex-column justify-content-between">
-          <div>
-            <img src="${kepForras(termek)}" alt="${termek.nev}" class="img-fluid mb-3" />
-            <h5 class="mb-2">${termek.nev}</h5>
-            <p class="mb-2">${termek.reszletesLeiras || termek.leiras}</p>
-          </div>
-          <p class="fw-bold mt-3" id="termekAr"></p>
-        </div>
-
-        <!-- Jobb oldal -->
-        <div class="col-md-4 d-flex flex-column justify-content-between">
-          <div>
-            <div class="mb-3">
-              <label for="kiszerelesValaszto" class="form-label fw-bold">Kiszerelés</label>
-              <select id="kiszerelesValaszto" class="form-select">
-                <option value="25g">25 g</option>
-                <option value="35g">35 g</option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label fw-bold">Mennyiség</label>
-              <div class="input-group">
-                <button class="btn btn-outline-secondary" type="button" id="minusBtn">−</button>
-                <input type="number" id="mennyisegValaszto" class="form-control text-center" value="1" min="1" />
-                <button class="btn btn-outline-secondary" type="button" id="plusBtn">+</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-grid mt-3">
-            <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // --- Eseménykezelők ---
-    const kiszerelesSelect = modalBody.querySelector("#kiszerelesValaszto");
-    const arElem = modalBody.querySelector("#termekAr");
-    const mennyInput = modalBody.querySelector("#mennyisegValaszto");
-    const minusBtn = modalBody.querySelector("#minusBtn");
-    const plusBtn = modalBody.querySelector("#plusBtn");
-    const kosarBtn = modalBody.querySelector("#kosarBtn");
-
-    let aktivKiszereles = kiszerelesSelect.value;
-
-    // Ár frissítése
-    function frissitAr() {
-      if (termek.arak && termek.arak[aktivKiszereles]) {
-        arElem.textContent = `${termek.arak[aktivKiszereles]} Ft`;
-      } else {
-        arElem.textContent = termek.ar ? `${termek.ar} Ft` : "";
+  const arMegjelenites = (() => {
+    if (termek.ar && String(termek.ar).trim() !== "") {
+      return `${termek.ar} Ft`;
+    }
+    if (termek.arak && typeof termek.arak === "object") {
+      const ertekek = Object.values(termek.arak);
+      if (ertekek.length) {
+        const min = Math.min(...ertekek);
+        const max = Math.max(...ertekek);
+        return min === max ? `${min} Ft` : `${min} - ${max} Ft`;
       }
     }
-    frissitAr();
+    return "";
+  })();
 
-    kiszerelesSelect.addEventListener("change", () => {
-      aktivKiszereles = kiszerelesSelect.value;
-      frissitAr();
-    });
+  modalBody.innerHTML = `
+    <img src="${kepForras(termek)}" alt="${termek.nev}" class="img-fluid mb-3" />
+    <h5>${termek.nev}</h5>
+    <p>${termek.reszletesLeiras || termek.leiras || ""}</p>
+    <p class="fw-bold">${arMegjelenites}</p>
+    <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
+  `;
 
-    minusBtn.addEventListener("click", () => {
-      mennyInput.value = Math.max(1, parseInt(mennyInput.value || "1", 10) - 1);
-    });
-    plusBtn.addEventListener("click", () => {
-      mennyInput.value = Math.max(1, parseInt(mennyInput.value || "1", 10) + 1);
-    });
+  const kosarBtn = modalBody.querySelector("#kosarBtn");
+  kosarBtn.addEventListener("click", () => {
+    kosarhozAdas(termek.nev);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById("megtekintesModal")).hide();
+  });
 
-    kosarBtn.addEventListener("click", () => {
-      const mennyiseg = parseInt(mennyInput.value || "1", 10);
-      const ar = termek.arak ? termek.arak[aktivKiszereles] : termek.ar;
-      kosarhozAdas(termek.nev, { kiszereles: aktivKiszereles, mennyiseg, ar });
-
-      const modalElem = document.getElementById("megtekintesModal");
-      bootstrap.Modal.getOrCreateInstance(modalElem).hide();
-    });
-  }
-
-  // --- Karkötő ---
-  else if (termek.nev === "Karkötő") {
-    modalBody.innerHTML = `
-      <img src="${kepForras(termek)}" alt="${termek.nev}" class="img-fluid mb-3" />
-      <h5>${termek.nev}</h5>
-      <p>${termek.reszletesLeiras || termek.leiras}</p>
-      <p class="fw-bold">${termek.ar} Ft</p>
-      <div class="mb-3">
-        <label for="szinValaszto" class="form-label fw-bold">Szín:</label>
-        <select id="szinValaszto" class="form-select">
-          <option value="piros">Piros</option>
-          <option value="kék">Kék</option>
-          <option value="zöld">Zöld</option>
-        </select>
-      </div>
-      <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
-    `;
-
-    const kosarBtn = modalBody.querySelector("#kosarBtn");
-    kosarBtn.addEventListener("click", () => {
-      const szin = modalBody.querySelector("#szinValaszto").value;
-      kosarhozAdas(termek.nev, { szin });
-      const modalElem = document.getElementById("megtekintesModal");
-      bootstrap.Modal.getOrCreateInstance(modalElem).hide();
-    });
-  }
-
-  // --- Csomagok ---
-  else if (termek.kategoria === "csomagok") {
-    modalBody.innerHTML = `
-      <ul class="nav nav-tabs" id="csomagTabok" role="tablist">
-        <li class="nav-item">
-          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#leiras">Leírás</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tartalom">Tartalom</button>
-        </li>
-      </ul>
-      <div class="tab-content mt-3">
-        <div class="tab-pane fade show active" id="leiras">
-          <p>${termek.reszletesLeiras || termek.leiras}</p>
-        </div>
-        <div class="tab-pane fade" id="tartalom">
-          <p>Itt jelenik meg a csomag részletes tartalma.</p>
-        </div>
-      </div>
-      <p class="fw-bold mt-3">${termek.ar} Ft</p>
-      <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
-    `;
-
-    const kosarBtn = modalBody.querySelector("#kosarBtn");
-    kosarBtn.addEventListener("click", () => {
-      kosarhozAdas(termek.nev);
-      const modalElem = document.getElementById("megtekintesModal");
-      bootstrap.Modal.getOrCreateInstance(modalElem).hide();
-    });
-  }
-
-  // --- Alapértelmezett ---
-  else {
-    modalBody.innerHTML = `
-      <img src="${kepForras(termek)}" alt="${termek.nev}" class="img-fluid mb-3" />
-      <h5>${termek.nev}</h5>
-      <p>${termek.reszletesLeiras || termek.leiras}</p>
-      <p class="fw-bold">${termek.ar} Ft</p>
-      <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
-    `;
-
-    const kosarBtn = modalBody.querySelector("#kosarBtn");
-    kosarBtn.addEventListener("click", () => {
-      kosarhozAdas(termek.nev);
-      const modalElem = document.getElementById("megtekintesModal");
-      bootstrap.Modal.getOrCreateInstance(modalElem).hide();
-    });
-  }
-
-  // --- Modál megnyitása ---
   const modalElem = document.getElementById("megtekintesModal");
   if (!modalElem) return;
   const modal = new bootstrap.Modal(modalElem);
   modal.show();
 }
 
-// --- Inicializ
+/* ============================================================
+   Menü és mobil kereső nyitása/zárása
+   ============================================================ */
+function initMenuToggle() {
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const menuPanel = document.getElementById("menuPanel");
+
+  if (!hamburgerBtn || !menuPanel) return;
+
+  hamburgerBtn.addEventListener("click", () => {
+    const isOpen = menuPanel.classList.toggle("open");
+    menuPanel.setAttribute("aria-hidden", !isOpen);
+    hamburgerBtn.setAttribute("aria-expanded", isOpen);
+  });
+}
+
+function initMobilKeresesToggle() {
+  const mobilBtn = document.getElementById("mobilKeresoBtn");
+  const keresosav = document.getElementById("mobilKeresosav");
+
+  if (!mobilBtn || !keresosav) return;
+
+  mobilBtn.addEventListener("click", () => {
+    const isOpen = keresosav.classList.toggle("open");
+    keresosav.setAttribute("aria-hidden", !isOpen);
+    mobilBtn.setAttribute("aria-expanded", isOpen);
+  });
+
+  const keresInditoBtn = document.getElementById("mobilKeresesInditoBtn");
+  if (keresInditoBtn) {
+    keresInditoBtn.addEventListener("click", keresesInditasa);
+  }
+}
+
+/* ============================================================
+   Inicializálás
+   ============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  megjelenitTermekek(termekekLISTA);
+  initMegtekintesEsemeny();
+  initSzures();
+  frissitKosarDb();
+  initMenuToggle();
+  initMobilKeresesToggle();
+
+  const keresoMezo = document.getElementById("keresoMezo");
+  const keresoMezoMobil = document.getElementById("keresoMezoMobil");
+  if (keresoMezo) keresoMezo.addEventListener("input", keresesInditasa);
+  if (keresoMezoMobil) keresoMezoMobil.addEventListener("input", keresesInditasa);
+
+  window.keresesInditasa = keresesInditasa;
+});

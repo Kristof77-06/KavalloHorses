@@ -1,24 +1,19 @@
-/* ============================================================
-   Alap reset
-   ============================================================ */
+/* Alap reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Teststílus – felső térköz a fix navbar miatt */
+/* Test */
 body {
   font-family: Arial, sans-serif;
   background-color: #ffffff;
-  margin: 0;
-  padding-top: 80px; /* Igazodik a navbar magasságához */
+  padding-top: 80px; /* navbar magasság */
   overflow-x: hidden;
 }
 
-/* ============================================================
-   Navigációs sáv
-   ============================================================ */
+/* NAVBAR fixen a tetején */
 .navbar {
   position: fixed;
   top: 0;
@@ -32,6 +27,7 @@ body {
   align-items: center;
 }
 
+/* NAVBAR belső elrendezés */
 .navbar .container-fluid {
   display: flex;
   justify-content: space-between;
@@ -39,33 +35,17 @@ body {
   width: 100%;
 }
 
-/* Keresőmező stílusa */
+/* Keresőmező */
 #keresoMezo {
   width: 200px;
 }
 
-/* Logó középre igazítása */
-.navbar .text-center {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Menü gomb */
+.navbar-toggler {
+  margin-left: 10px;
 }
 
-/* Logó képe */
-.navbar img {
-  max-height: 100%;
-  max-width: 100%;
-  height: auto;
-  width: auto;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Menü gomb és menülista */
-.navbar-toggler { margin-left: 10px; }
-
+/* Menü lista */
 .navbar-nav {
   display: flex;
   flex-direction: row;
@@ -78,110 +58,83 @@ body {
   padding: 8px 12px;
   text-decoration: none;
 }
+
 .navbar-nav .nav-link:hover {
   background-color: #333333;
   border-radius: 4px;
 }
 
-/* Kosár ikon kiemelése */
+/* Kosár ikon */
 #kosarDb {
   font-weight: bold;
   color: #ffc107;
 }
 
-/* ============================================================
-   Menüpanel – egységes logika minden oldalon
-   ============================================================ */
-#menuPanel {
-  box-sizing: border-box;
-  width: 100%;
-  display: block;
-  position: relative;
-  overflow: hidden;
-  max-height: 0;                  /* alapból rejtve */
-  transform: translateX(-100%);   /* balról kicsúsztatva */
-  transition: transform 320ms ease, max-height 320ms ease;
-  background: #222;
-  border-bottom: 1px solid #2a2a2a;
-  z-index: 50;
-  will-change: transform, max-height;
-}
-#menuPanel.open {
-  transform: translateX(0);
-}
-#menuPanel .navbar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px 14px;
-  margin: 0;
-  list-style: none;
-}
-#menuPanel .nav-link {
-  display: block;
-  width: 100%;
-  padding: 10px 12px;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 6px;
-  background: #1a1a1a;
-  border: 1px solid rgba(255,255,255,0.04);
-  transition: background 160ms ease, color 160ms ease;
-}
-#menuPanel .nav-link:hover,
-#menuPanel .nav-link:focus {
-  background: #2a2a2a;
-  color: #fff;
-  outline: none;
+/* Fejléc */
+header {
+  padding: 20px;
+  background-color: #f8f9fa;
+  color: #000000;
+  text-align: center;
 }
 
-/* ============================================================
-   Mobil keresősáv – alapból rejtve
-   ============================================================ */
-#mobilKeresosav {
-  display: none;              /* teljesen rejtve */
-  background: #0b0b0b;
-  border-top: 1px solid #181818;
-  padding: 8px 16px 12px 16px;
-  z-index: 1100;
+header h1 {
+  margin-top: 20px;
+  font-size: 2rem;
+  font-weight: bold;
 }
-#mobilKeresosav.open {
-  display: block;             /* csak ekkor jelenik meg */
+
+/* Tartalom */
+article {
+  padding: 20px;
+  background-color: #ffffff;
+  color: #000000;
 }
-#mobilKeresosav .form-control {
-  background: #fff;
-  color: #111;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+
+/* Lábléc */
+footer {
+  background-color: #ffffff;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #000000;
 }
-#mobilKeresosav .form-control::placeholder { color: #666; }
-
-/* ============================================================
-   Fejléc, tartalom, lábléc
-   ============================================================ */
-header { padding: 20px; background-color: #f8f9fa; color: #000; text-align: center; }
-header h1 { margin-top: 20px; font-size: 2rem; font-weight: bold; }
-
-article { padding: 20px; background-color: #fff; color: #000; }
-
-footer { background-color: #fff; padding: 20px; text-align: center; font-size: 1.2rem; color: #000; }
 
 /* Címsorok */
-h2 { margin-top: 20px; font-weight: 200; font-size: 1.6rem; }
-h3 { font-weight: 200; font-size: 15px; margin: 10px 0; }
+h2 {
+  margin-top: 20px;
+  font-weight: 200;
+  font-size: 1.6rem;
+}
+
+h3 {
+  font-weight: 200;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 /* Vízszintes vonal */
-hr { margin: 0 0 15px 0; border: 1px solid #f4f4f4; }
+hr {
+  border: 1px solid #f4f4f4;
+  margin-bottom: 15px;
+}
 
-/* Fejléc kép vagy banner */
-#fejlec { margin: 20px 0; width: 100%; height: 200px; background-size: cover; background-position: center; }
+/* Fejléc kép */
+#fejlec {
+  margin: 20px 0;
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
 
 /* Választási blokk */
 #valasztas {
   padding: 20px;
   border: 3px solid #f44444;
   margin-bottom: 15px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 5px;
 }
 
@@ -197,38 +150,55 @@ button {
   transition: background-color 0.3s ease;
   font-size: 16px;
 }
-button:hover { background-color: #424242; }
 
-/* ============================================================
-   Reszponzív finomhangolás – mobilnézet
-   ============================================================ */
+button:hover {
+  background-color: #424242;
+}
+
+/* Mobilnézet */
 @media (max-width: 576px) {
-  body { padding-top: 80px; }
-
-  .navbar .text-center {
-    flex-basis: 100%;
-    justify-content: center;
-    align-items: center;
+  body {
+    padding-top: 80px;
   }
-  .navbar img { max-width: 80%; height: auto; }
 
-  #menuPanel .navbar-nav {
+  .navbar-nav {
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-  }
-  #menuPanel .nav-link {
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 1rem;
-    border-bottom: 1px solid #333;
+    align-items: flex-end;
+    background-color: #212529;
+    padding: 10px;
   }
 
-  #keresoMezo { width: 100%; }
+  .navbar-nav .nav-link {
+    width: 100%;
+    text-align: right;
+  }
 
-  header, article, footer { padding: 15px; }
-  header h1 { font-size: 1.8rem; margin-top: 40px; }
-  h2 { font-size: 1.4rem; margin: 20px 0 10px; font-weight: 200; }
-  h3 { font-size: 1.1rem; font-weight: 300; margin: 10px 0; }
-  hr { margin-bottom: 10px; }
+  #keresoMezo {
+    width: 100%;
+  }
+
+  header, article, footer {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    margin-top: 40px;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    margin: 20px 0 10px;
+    font-weight: 200;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin: 10px 0;
+  }
+
+  hr {
+    margin-bottom: 10px;
+  }
 }
