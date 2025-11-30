@@ -2,39 +2,41 @@
 <html lang="hu">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kavallo Horses – Rólunk</title>
 
     <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
 
     <!-- Font Awesome ikonok -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <!-- Saját stíluslap -->
     <link rel="stylesheet" href="style.css" />
 
-    <!-- Saját JS toggle logika -->
+    <!-- Saját JS (modul) -->
     <script type="module" src="main.js" defer></script>
+
+    <style>
+      /* Biztonsági stílusok: a fixed navbar ne takarja a tartalmat */
+      body { margin: 0; padding-top: 64px; }
+      .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1050; }
+      /* Kis finomítás a kosár badge-hez */
+      #kosarDb { font-weight: 600; }
+    </style>
   </head>
   <body>
-    <!-- Fejléc -->
+    <!-- Fejléc (egységes, minden oldalon ugyanaz a blokk legyen) -->
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-dark w-100">
         <div class="container-fluid d-flex flex-nowrap align-items-center">
-          <!-- Desktop kereső (eredeti helyén) -->
-          <form class="d-none d-sm-flex me-auto" role="search" onsubmit="event.preventDefault(); keresesInditasa();" id="desktopKeresoForm">
+          <!-- Desktop kereső -->
+          <form class="d-none d-sm-flex me-auto" role="search" id="desktopKeresoForm" onsubmit="event.preventDefault(); keresesInditasa();">
             <input type="text" id="keresoMezo" class="form-control me-2 w-auto" placeholder="Keresés..." />
             <button type="submit" class="btn btn-outline-light">Keresés</button>
           </form>
 
-          <!-- Mobil kereső gomb (egy gomb, collapse-szal) -->
+          <!-- Mobil kereső gomb -->
           <div class="d-sm-none d-flex justify-content-start px-3">
             <button
               class="btn btn-outline-light"
@@ -49,7 +51,7 @@
             </button>
           </div>
 
-          <!-- Menü gomb (hamburger) -->
+          <!-- Hamburger gomb -->
           <button
             class="navbar-toggler ms-auto"
             type="button"
@@ -58,6 +60,7 @@
             aria-controls="mynavbar"
             aria-expanded="false"
             aria-label="Menü megnyitása"
+            id="hamburgerBtn"
           >
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -65,13 +68,14 @@
           <!-- Menü elemek (collapse) -->
           <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link" href="kezdolap.html">Kezdőlap</a></li>
-              <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
+              <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
+              <li class="nav-item"><a class="nav-link active" href="rolunk.html">Rólunk</a></li>
               <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
               <li class="nav-item">
-                <a class="nav-link" href="kosar.html">
-                  <i class="fa fa-shopping-cart" aria-hidden="true"></i> Kosár
-                  <span id="kosarDb">(0)</span>
+                <a class="nav-link d-flex align-items-center" href="kosar.html">
+                  <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
+                  <span class="d-none d-md-inline">Kosár</span>
+                  <span id="kosarDb" class="ms-2">(0)</span>
                 </a>
               </li>
             </ul>
@@ -79,73 +83,128 @@
         </div>
       </nav>
 
-      <!-- Mobil keresősáv (egyetlen elem, collapse-vezérelt) -->
+      <!-- Mobil keresősáv (egyetlen példány, collapse vezérelt) -->
       <div class="collapse d-sm-none px-3" id="mobilKeresosav" aria-hidden="true">
         <input type="text" id="mobilKeresoMezo" class="form-control my-2 w-100" placeholder="Írd be, amit keresel..." />
         <button class="btn btn-primary mb-3 w-100" id="mobilKeresesInditoBtn" onclick="keresesInditasa()">Keresés indítása</button>
       </div>
     </header>
 
-    <main class="row">
-      <header class="text-center col-lg-12">
-        <h1>Rólunk</h1>
-      </header>
+    <!-- FŐ TARTALOM -->
+    <main class="container-fluid">
+      <div class="row">
+        <header class="text-center col-12 mt-3 mb-3">
+          <h1>Rólunk</h1>
+        </header>
 
-      <div class="col-lg-4 px-4">
-        <br />
-        <br />
-        <br />
-        <br />
-        <p>
-          A Kavallo Horses 2025 nyarán született meg abból a szenvedélyből, amely kilenc éve határozza meg mindennapjaimat: a lovaglás iránti elkötelezettségből, a versenyek eleganciájából és a kézműves alkotás öröméből. A márka célja, hogy a lovasok és lovaik ne csupán teljesítményükkel, hanem megjelenésükkel is emlékezetesek legyenek – egyedi, stílusos kiegészítőkkel, amelyek méltóak a versenypálya világához.
-        </p>
-        <p>
-          Minden termékem saját kézzel készül, gondos odafigyeléssel és kifinomult ízléssel. A Kavallo Horses kiegészítők nem csupán szépek – rugalmasak, tartósak, és úgy lettek megalkotva, hogy a legnagyobb igénybevétel mellett is megőrizzék formájukat és eleganciájukat. A hazai gyártás számomra nem csupán választás, hanem értékrend: minden darabban ott rejlik a magyar kézművesség precizitása és lelke.
-        </p>
-      </div>
-
-      <div class="col-lg-12 px-4">
-        <p>
-          Lovas pályafutásom során két évet versenyeztem, két évet lovastornáztam, és immár négy éve a díjlovaglás világában mélyítem tudásomat. Ez az út tanított meg arra, hogy a részletek számítanak – a mozdulatban, a felszerelésben, a megjelenésben. A Kavallo Horses ezt az érzékenységet és kifinomultságot viszi tovább minden egyes termékében.
-        </p>
-        <p>
-          A márka mögött egy olyan vízió áll, amely a divat és a funkcionalitás találkozásából születik. A kollekciók tervezésénél a kortárs stílus, a klasszikus elegancia és a lovas világ sajátos ritmusa inspirál. A célom, hogy minden lovas megtalálja azt a kiegészítőt, amely nemcsak illik hozzá, hanem kiemeli egyéniségét – legyen szó versenyről, edzésről vagy egy nyugodt délutáni lovaglásról.
-        </p>
-        <p>
-          A Kavallo Horses nem csupán márka – ez egy életérzés. Egy világ, ahol a lovas és lova együtt léphet be az elegancia és az önkifejezés tereibe.
-        </p>
-        <br />
-        <br />
-        <br />
-        <br />
-      </div>
-
-      <div class="col-12 px-4">
-        <h2 class="text-center mt-4">Elérhetőségek</h2>
-        <ul class="list-unstyled">
-          <li><strong>Telefonszám:</strong> Hamarosan</li>
-          <li><strong>E-mail:</strong> Hamarosan</li>
-          <li><strong>Instagram:</strong> Hamarosan</li>
-          <li><strong>TikTok:</strong> Hamarosan</li>
-        </ul>
-      </div>
-
-      <footer class="col-lg-12 text-center mt-4">
-        <i style="font-size: 24px"></i>
-        <!-- Lábléc szakasz -->
-        <i style="font-size: 24px"></i>
-      </footer>
-
-      <footer class="col-lg-12 text-center mt-4 bg-light py-4">
-        <div class="container">
-          <p class="mb-1">© 2025 Webshop - Minden jog fenntartva</p>
-          <p class="mb-1">Kézzel készült termékek, szeretettel</p>
+        <div class="col-lg-4 px-4">
+          <p>
+            A Kavallo Horses 2025 nyarán született meg abból a szenvedélyből, amely kilenc éve határozza meg mindennapjaimat: a lovaglás iránti elkötelezettségből, a versenyek eleganciájából és a kézműves alkotás öröméből. A márka célja, hogy a lovasok és lovaik ne csupán teljesítményükkel, hanem megjelenésükkel is emlékezetesek legyenek – egyedi, stílusos kiegészítőkkel, amelyek méltóak a versenypálya világához.
+          </p>
+          <p>
+            Minden termékem saját kézzel készül, gondos odafigyeléssel és kifinomult ízléssel. A Kavallo Horses kiegészítők nem csupán szépek – rugalmasak, tartósak, és úgy lettek megalkotva, hogy a legnagyobb igénybevétel mellett is megőrizzék formájukat és eleganciájukat. A hazai gyártás számomra nem csupán választás, hanem értékrend: minden darabban ott rejlik a magyar kézművesség precizitása és lelke.
+          </p>
         </div>
-      </footer>
+
+        <div class="col-lg-8 px-4">
+          <p>
+            Lovas pályafutásom során két évet versenyeztem, két évet lovastornáztam, és immár négy éve a díjlovaglás világában mélyítem tudásomat. Ez az út tanított meg arra, hogy a részletek számítanak – a mozdulatban, a felszerelésben, a megjelenésben. A Kavallo Horses ezt az érzékenységet és kifinomultságot viszi tovább minden egyes termékében.
+          </p>
+          <p>
+            A márka mögött egy olyan vízió áll, amely a divat és a funkcionalitás találkozásából születik. A kollekciók tervezésénél a kortárs stílus, a klasszikus elegancia és a lovas világ sajátos ritmusa inspirál. A célom, hogy minden lovas megtalálja azt a kiegészítőt, amely nemcsak illik hozzá, hanem kiemeli egyéniségét – legyen szó versenyről, edzésről vagy egy nyugodt délutáni lovaglásról.
+          </p>
+          <p>
+            A Kavallo Horses nem csupán márka – ez egy életérzés. Egy világ, ahol a lovas és lova együtt léphet be az elegancia és az önkifejezés tereibe.
+          </p>
+        </div>
+
+        <div class="col-12 px-4">
+          <h2 class="text-center mt-4">Elérhetőségek</h2>
+          <ul class="list-unstyled text-center">
+            <li><strong>Telefonszám:</strong> Hamarosan</li>
+            <li><strong>E-mail:</strong> Hamarosan</li>
+            <li><strong>Instagram:</strong> Hamarosan</li>
+            <li><strong>TikTok:</strong> Hamarosan</li>
+          </ul>
+        </div>
+
+        <footer class="col-12 text-center mt-4 bg-light py-4">
+          <div class="container">
+            <p class="mb-1">© 2025 Webshop - Minden jog fenntartva</p>
+            <p class="mb-1">Kézzel készült termékek, szeretettel</p>
+          </div>
+        </footer>
+      </div>
     </main>
 
-    <!-- Külső JS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Külső JS (Bootstrap előbb, majd a saját init) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Init script: egységes viselkedés mobilon (bezárja a menüt, biztosítja a navigációt) -->
+    <script>
+      (function () {
+        if (typeof bootstrap === 'undefined') return;
+
+        const navId = 'mynavbar';
+        const searchId = 'mobilKeresosav';
+        const mynab = document.getElementById(navId);
+        const mobilCollapse = document.getElementById(searchId);
+        const hamburger = document.getElementById('hamburgerBtn');
+        const mobilBtn = document.getElementById('mobilKeresoBtn');
+
+        if (!mynab) return;
+
+        // Bezárjuk a menüt, ha menülinkre kattintanak (mobilon is)
+        mynab.querySelectorAll('a.nav-link[href]').forEach(link => {
+          link.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#' || href.startsWith('javascript:')) return;
+            const menuInstance = bootstrap.Collapse.getInstance(mynab) || new bootstrap.Collapse(mynab, { toggle: false });
+            if (mynab.classList.contains('show')) menuInstance.hide();
+            // Fallback navigáció: ha valami blokkolná a kattintást, kényszerítjük a navigációt
+            setTimeout(() => {
+              try {
+                const targetUrl = new URL(href, location.href).href;
+                if (location.href !== targetUrl) location.href = targetUrl;
+              } catch (err) {
+                // ha relatív URL hibás, hagyjuk a normál kattintást
+              }
+            }, 200);
+          }, { passive: true });
+        });
+
+        // Kölcsönös bezárás: ha a keresőt nyitják, zárjuk a menüt; ha a menüt nyitják, zárjuk a keresőt
+        if (mobilBtn) {
+          mobilBtn.addEventListener('click', function () {
+            if (mynab.classList.contains('show')) {
+              const menuInstance = bootstrap.Collapse.getInstance(mynab) || new bootstrap.Collapse(mynab, { toggle: false });
+              menuInstance.hide();
+            }
+          });
+        }
+
+        if (hamburger) {
+          hamburger.addEventListener('click', function () {
+            if (mobilCollapse && mobilCollapse.classList.contains('show')) {
+              const s = bootstrap.Collapse.getInstance(mobilCollapse) || new bootstrap.Collapse(mobilCollapse, { toggle: false });
+              s.hide();
+            }
+          });
+        }
+
+        // Fallback: ha nincs kosarDb, hozzuk létre egyszer
+        if (!document.getElementById('kosarDb')) {
+          const cartLink = document.querySelector('a[href="kosar.html"]');
+          if (cartLink) {
+            const span = document.createElement('span');
+            span.id = 'kosarDb';
+            span.className = 'ms-2';
+            span.textContent = '(0)';
+            cartLink.appendChild(span);
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
