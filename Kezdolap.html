@@ -21,7 +21,6 @@
       body { margin: 0; padding-top: 72px; font-family: Arial, sans-serif; }
       .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1050; background-color: #212529; }
       #kosarDb { font-weight: 600; margin-left: 6px; }
-      #mobilKeresosav { display: none; }
       .nav-link { color: #fff; }
       .nav-link.active { font-weight: 600; }
       /* Rövidebb desktop keresőmező */
@@ -32,29 +31,43 @@
   <body>
     <!-- Fejléc -->
     <header class="site-header">
-      <nav class="navbar navbar-expand-sm navbar-dark w-100">
-        <div class="container-fluid">
+      <nav class="navbar navbar-expand-md navbar-dark w-100">
+        <div class="container-fluid d-flex flex-nowrap align-items-center">
           <!-- Desktop kereső -->
-          <form class="d-none d-sm-flex me-auto" role="search" id="desktopKeresoForm" onsubmit="event.preventDefault(); keresesInditasa();">
-            <input type="text" id="keresoMezo" class="form-control me-2" placeholder="Keresés..." />
+          <form class="d-none d-sm-flex me-auto" role="search"
+              onsubmit="event.preventDefault(); keresesInditasa();"
+              id="desktopKeresoForm">
+            <input type="text" id="keresoMezo"
+              class="form-control me-2"
+              placeholder="Keresés..." />
             <button type="submit" class="btn btn-outline-light">Keresés</button>
           </form>
 
           <!-- Mobil kereső gomb -->
           <div class="d-sm-none d-flex justify-content-start px-3">
-            <button class="btn btn-outline-light" onclick="toggleKeresosav()" aria-label="Mobil kereső">
+            <button
+              class="btn btn-outline-light"
+              id="mobilKeresoBtn"
+              data-bs-toggle="collapse"
+              data-bs-target="#mobilKeresosav"
+              aria-controls="mobilKeresosav"
+              aria-expanded="false"
+              aria-label="Mobil keresősáv"
+            >
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
 
-          <!-- Mobil kereső sáv -->
-          <div id="mobilKeresosav" class="d-sm-none px-3">
-            <input type="text" id="mobilKeresoMezo" class="form-control my-2" placeholder="Írd be, amit keresel..." />
-            <button class="btn btn-primary mb-3" onclick="keresesInditasa()">Keresés indítása</button>
-          </div>
-
-          <!-- Hamburger gomb -->
-          <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Menü">
+          <!-- Menü gomb (hamburger) -->
+          <button
+            class="navbar-toggler ms-auto"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mynavbar"
+            aria-controls="mynavbar"
+            aria-expanded="false"
+            aria-label="Menü megnyitása"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
 
@@ -75,8 +88,13 @@
           </div>
         </div>
       </nav>
-    </header>
 
+      <!-- Mobil keresősáv (collapse) -->
+      <div class="collapse d-sm-none px-3" id="mobilKeresosav" aria-hidden="true">
+        <input type="text" id="mobilKeresoMezo" class="form-control my-2 w-100" placeholder="Írd be, amit keresel..." />
+        <button class="btn btn-primary mb-3 w-100" id="mobilKeresesInditoBtn" onclick="keresesInditasa()">Keresés indítása</button>
+      </div>
+    </header>
     <!-- FŐ TARTALOM -->
     <main class="container-fluid">
       <div class="row">
@@ -86,6 +104,7 @@
           <p class="lead px-3">Egyedi, kézzel készült lovas kiegészítők – stílus, funkcionalitás és elegancia találkozása.</p>
           <a href="termekeink.html" class="btn btn-dark mt-4">Fedezd fel a termékeket</a>
         </div>
+
         <section class="col-12 mt-5 px-4">
           <div class="row g-4">
             <div class="col-md-6">
@@ -111,67 +130,5 @@
     <!-- Külső JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <!-- Mobil kereső toggle -->
-    <script>
-      function toggleKeresosav() {
-        const el = document.getElementById('mobilKeresosav');
-        if (!el) return;
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-      }
-
-      (function () {
-        if (typeof bootstrap === 'undefined') return;
-
-        const mynab = document.getElementById('mynavbar');
-        const mobilCollapse = document.getElementById('mobilKeresosav');
-        const hamburger = document.querySelector('.navbar-toggler');
-        const mobilBtn = document.querySelector('button[onclick="toggleKeresosav()"]');
-
-        if (mobilBtn) {
-          mobilBtn.addEventListener('click', function () {
-            if (mynab && mynab.classList.contains('show')) {
-              const menuInstance = bootstrap.Collapse.getInstance(mynab) || new bootstrap.Collapse(mynab, { toggle: false });
-              menuInstance.hide();
-            }
-          }, { passive: true });
-        }
-
-        if (hamburger) {
-          hamburger.addEventListener('click', function () {
-            if (mobilCollapse && mobilCollapse.style.display === 'block') {
-              mobilCollapse.style.display = 'none';
-            }
-          }, { passive: true });
-        }
-
-        if (mynab) {
-          mynab.querySelectorAll('a.nav-link[href]').forEach(link => {
-            link.addEventListener('click', function () {
-              const href = this.getAttribute('href');
-              if (!href || href === '#' || href.startsWith('javascript:')) return;
-              const menuInstance = bootstrap.Collapse.getInstance(mynab) || new bootstrap.Collapse(mynab, { toggle: false });
-              if (mynab.classList.contains('show')) menuInstance.hide();
-              setTimeout(() => {
-                try {
-                  const targetUrl = new URL(href, location.href).href;
-                  if (location.href !== targetUrl) location.href = targetUrl;
-                } catch (err) {}
-              }, 200);
-            }, { passive: true });
-          });
-        }
-
-        if (!document.getElementById('kosarDb')) {
-          const cartLink = document.querySelector('a[href="kosar.html"]');
-          if (cartLink) {
-            const span = document.createElement('span');
-            span.id = 'kosarDb';
-            span.textContent = '(0)';
-            cartLink.appendChild(span);
-          }
-        }
-      })();
-    </script>
   </body>
 </html>
