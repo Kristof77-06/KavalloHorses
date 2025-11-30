@@ -18,21 +18,19 @@
     <script type="module" src="main.js" defer></script>
 
     <style>
-      /* Fix navbar és alap padding a tartalomhoz */
       body { margin: 0; padding-top: 72px; font-family: Arial, sans-serif; }
       .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1050; background-color: #212529; }
-      /* Kosár badge finomítás */
       #kosarDb { font-weight: 600; margin-left: 6px; }
-      /* Mobil keresősáv alap (kosar.html viselkedéshez) */
       #mobilKeresosav { display: none; }
-      /* Kis vizuális javítás: nav-link színek */
       .nav-link { color: #fff; }
       .nav-link.active { font-weight: 600; }
+      /* Rövidebb desktop keresőmező */
+      #keresoMezo { width: 160px; }
     </style>
   </head>
 
   <body>
-    <!-- Fejléc (egységes menü, kosar.html-hez igazítva) -->
+    <!-- Fejléc -->
     <header class="site-header">
       <nav class="navbar navbar-expand-sm navbar-dark w-100">
         <div class="container-fluid">
@@ -42,15 +40,15 @@
             <button type="submit" class="btn btn-outline-light">Keresés</button>
           </form>
 
-          <!-- Mobil kereső gomb (kosar.html viselkedés) -->
+          <!-- Mobil kereső gomb -->
           <div class="d-sm-none d-flex justify-content-start px-3">
             <button class="btn btn-outline-light" onclick="toggleKeresosav()" aria-label="Mobil kereső">
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
 
-          <!-- Mobil kereső sáv (kosar.html viselkedés) -->
-          <div id="mobilKeresosav" class="d-sm-none px-3" style="display: none;">
+          <!-- Mobil kereső sáv -->
+          <div id="mobilKeresosav" class="d-sm-none px-3">
             <input type="text" id="mobilKeresoMezo" class="form-control my-2" placeholder="Írd be, amit keresel..." />
             <button class="btn btn-primary mb-3" onclick="keresesInditasa()">Keresés indítása</button>
           </div>
@@ -60,11 +58,11 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <!-- Menü elemek (egységes struktúra) -->
+          <!-- Menü elemek -->
           <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
-              <li class="nav-item"><a class="nav-link active" href="rolunk.html">Rólunk</a></li>
+              <li class="nav-item"><a class="nav-link active" href="Kezdolap.html">Kezdőlap</a></li>
+              <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
               <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center" href="kosar.html">
@@ -79,8 +77,6 @@
       </nav>
     </header>
 
-    <!-- Mobil keresősáv (duplikált collapse helyett kosar.html viselkedés) -->
-    <!-- (A fenti #mobilKeresosav elem is jelen van; ez a sor biztosítja, hogy a markup egyértelmű legyen) -->
     <!-- FŐ TARTALOM -->
     <main class="container-fluid">
       <div class="row">
@@ -90,11 +86,10 @@
           <p class="lead px-3">Egyedi, kézzel készült lovas kiegészítők – stílus, funkcionalitás és elegancia találkozása.</p>
           <a href="termekeink.html" class="btn btn-dark mt-4">Fedezd fel a termékeket</a>
         </div>
-
         <section class="col-12 mt-5 px-4">
           <div class="row g-4">
             <div class="col-md-6">
-              <li class="nav-item"><a class="nav-link active" href="rolunk.html">"Rólunk röviden"</a></li>
+              <h2>Rólunk röviden</h2>
               <p>A Kavallo Horses kézzel készült lovas kiegészítők márkája — minőség, elegancia és hazai kézművesség.</p>
             </div>
             <div class="col-md-6">
@@ -113,13 +108,12 @@
       </div>
     </main>
 
-    <!-- Külső JS: Bootstrap előbb, majd init segédfüggvények -->
+    <!-- Külső JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- Mobil kereső toggle és init (kosar.html viselkedésének másolata) -->
+    <!-- Mobil kereső toggle -->
     <script>
-      // Mobil kereső megjelenítése / elrejtése (kosar.html viselkedés)
       function toggleKeresosav() {
         const el = document.getElementById('mobilKeresosav');
         if (!el) return;
@@ -134,7 +128,6 @@
         const hamburger = document.querySelector('.navbar-toggler');
         const mobilBtn = document.querySelector('button[onclick="toggleKeresosav()"]');
 
-        // Ha a mobil keresőt megnyitják, zárjuk a menüt; ha a menüt nyitják, elrejtjük a keresőt
         if (mobilBtn) {
           mobilBtn.addEventListener('click', function () {
             if (mynab && mynab.classList.contains('show')) {
@@ -152,7 +145,6 @@
           }, { passive: true });
         }
 
-        // Menüpontokra kattintva bezárjuk a menüt és biztosítjuk a navigációt (mobilon is)
         if (mynab) {
           mynab.querySelectorAll('a.nav-link[href]').forEach(link => {
             link.addEventListener('click', function () {
@@ -164,15 +156,12 @@
                 try {
                   const targetUrl = new URL(href, location.href).href;
                   if (location.href !== targetUrl) location.href = targetUrl;
-                } catch (err) {
-                  // hagyjuk a normál kattintást
-                }
+                } catch (err) {}
               }, 200);
             }, { passive: true });
           });
         }
 
-        // Fallback: ha nincs kosarDb, hozzuk létre egyszer
         if (!document.getElementById('kosarDb')) {
           const cartLink = document.querySelector('a[href="kosar.html"]');
           if (cartLink) {
