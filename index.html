@@ -33,7 +33,7 @@
   <body>
     <!-- EGYSÉGES FEJLÉC (kosar.html-hez igazítva) -->
     <header class="site-header">
-      <nav class="navbar navbar-expand-sm navbar-dark w-100">
+      <nav class="navbar navbar-expand-sm navbar-dark w-1">
         <div class="container-fluid">
           <!-- Desktop kereső -->
           <form class="d-none d-sm-flex me-auto" role="search" id="desktopKeresoForm" onsubmit="event.preventDefault(); keresesInditasa();">
@@ -74,16 +74,13 @@
               </li>
             </ul>
           </div>
-        </div>
-      </nav>
     </header>
 
     <!-- FŐ TARTALOM (kezdő rész) -->
-    <main class="container-fluid">
-      <div class="row">
-        <header class="text-center col-12 mt-3 mb-3">
-          <h1>Termékeink</h1>
-        </header>
+    <main class="row">
+      <header class="text-center col-12">
+        <h1>Termékeink</h1>
+      </header>
 
         <aside id="szures" class="col-12 mb-4 px-4">
           <div class="d-flex align-items-center justify-content-center">
@@ -111,7 +108,6 @@
             <p class="mb-1">Kézzel készült termékek, szeretettel</p>
           </div>
         </footer>
-      </div>
     </main>
 
     <!-- Megtekintés modal -->
