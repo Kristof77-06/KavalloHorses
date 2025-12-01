@@ -70,20 +70,12 @@ body {
   color: #ffc107;
 }
 
-/* Fejléc */
-header {
-  background-color: #f8f9fa;
-  text-align: center;
-
-}
-
 header h1 {
   height: 80px;
   line-height: 90px; /* függőleges középre igazítás egy soros szöveghez */
   font-size: 2rem;
   font-weight: bold;
 }
-
 
 /* Tartalom */
 article {
