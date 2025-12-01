@@ -10,48 +10,81 @@ function kepForras(termek) {
 
 /* ============================================================
    Ár megjelenítés (egyérték vagy tartomány az arak objektumból)
+   Robosztusabb számparzolással (szóközök, egyéb karakterek kezelése)
    ============================================================ */
 function arSzoveg(termek) {
   // Ha egy darab ár van (szám vagy szöveg), jelenítsük meg "Ft"-tal
   if (termek.ar && String(termek.ar).trim() !== "") {
     return `${termek.ar} Ft`;
   }
+
   // Ha arak objektum van (pl. több méret), jelenítsük meg min-max tartományként
   if (termek.arak && typeof termek.arak === "object") {
-    const ertekek = Object.values(termek.arak).map(v => Number(v)).filter(v => !Number.isNaN(v));
+    const ertekek = Object.values(termek.arak)
+      .map((v) => String(v || ""))
+      .map((v) => v.replace(/\s+/g, ""))            // eltávolítjuk a szóközöket (pl. "1 400")
+      .map((v) => v.replace(/[^0-9.-]/g, ""))       // csak számjegyek, pont, mínusz marad
+      .map((v) => Number(v))
+      .filter((v) => !Number.isNaN(v));
+
     if (ertekek.length) {
       const min = Math.min(...ertekek);
       const max = Math.max(...ertekek);
       return min === max ? `${min} Ft` : `${min} - ${max} Ft`;
     }
   }
+
   // Ha nincs ár, térjünk vissza üres szöveggel
   return "";
 }
 
 /* ============================================================
-   Termék kártya HTML (string) — renderelő segédfüggvény
+   Biztonságos DOM-alapú kártyaépítés (XSS-ellenesebb, performánsabb)
    ============================================================ */
-function kartyaHTML(termek) {
-  const kep = kepForras(termek);
-  const arMegjelenites = arSzoveg(termek);
-  const leiras = termek.leiras || "";
-  const nev = termek.nev || "";
-  return `
-    <div class="card h-100">
-      <img src="${kep}" class="card-img-top" alt="${nev}" />
-      <div class="card-body d-flex flex-column justify-content-between">
-        <h5 class="card-title">${nev}</h5>
-        <p class="card-text">${leiras}</p>
-        <div class="d-flex justify-content-between align-items-center mt-auto">
-          <p class="fw-bold mb-0">${arMegjelenites}</p>
-          <button type="button" class="btn btn-dark btn-sm btn-megtekintes" data-nev="${nev}">
-            Megtekintés
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
+function kartyaElement(termek) {
+  const card = document.createElement("div");
+  card.className = "card h-100";
+
+  const img = document.createElement("img");
+  img.className = "card-img-top";
+  img.src = kepForras(termek);
+  img.alt = termek.nev || "";
+
+  const body = document.createElement("div");
+  body.className = "card-body d-flex flex-column justify-content-between";
+
+  const title = document.createElement("h5");
+  title.className = "card-title";
+  title.textContent = termek.nev || "";
+
+  const p = document.createElement("p");
+  p.className = "card-text";
+  p.textContent = termek.leiras || "";
+
+  const bottom = document.createElement("div");
+  bottom.className = "d-flex justify-content-between align-items-center mt-auto";
+
+  const price = document.createElement("p");
+  price.className = "fw-bold mb-0";
+  price.textContent = arSzoveg(termek);
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "btn btn-dark btn-sm btn-megtekintes";
+  btn.dataset.nev = termek.nev || "";
+  btn.textContent = "Megtekintés";
+
+  bottom.appendChild(price);
+  bottom.appendChild(btn);
+
+  body.appendChild(title);
+  body.appendChild(p);
+  body.appendChild(bottom);
+
+  card.appendChild(img);
+  card.appendChild(body);
+
+  return card;
 }
 
 /* ============================================================
@@ -73,7 +106,7 @@ function megjelenitTermekek(lista) {
     const oszlop = document.createElement("div");
     oszlop.className = "col-md-4 mb-4";
 
-    oszlop.innerHTML = kartyaHTML(termek);
+    oszlop.appendChild(kartyaElement(termek));
 
     sor.appendChild(oszlop);
   });
@@ -197,7 +230,7 @@ function megnyitMegtekintesModal(termek) {
   const modalBody = document.getElementById("modalBody");
   if (!modalBody) return;
 
-  // Modal tartalom összeállítása
+  // Modal tartalom összeállítása (biztonságosabb innerHTML használat, mert kontrollált tartalom)
   const kep = kepForras(termek);
   const arMegjelenites = arSzoveg(termek);
   const nev = termek.nev || "";
@@ -211,7 +244,7 @@ function megnyitMegtekintesModal(termek) {
     <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
   `;
 
-  // Kosár gomb esemény
+  // Kosár gomb esemény — once opcióval, hogy többször ne regisztrálódjon
   const kosarBtn = modalBody.querySelector("#kosarBtn");
   if (kosarBtn) {
     kosarBtn.addEventListener("click", () => {
@@ -220,7 +253,7 @@ function megnyitMegtekintesModal(termek) {
       if (modalElem && window.bootstrap && typeof window.bootstrap.Modal !== "undefined") {
         window.bootstrap.Modal.getOrCreateInstance(modalElem).hide();
       }
-    });
+    }, { once: true });
   }
 
   // Modal megnyitása
@@ -233,16 +266,34 @@ function megnyitMegtekintesModal(termek) {
 }
 
 /* ============================================================
-   Menü és mobil kereső nyitása/zárása (CSS osztályokkal)
+   Menü és mobil kereső nyitása/zárása (robosztusabb)
+   - initMenuToggle: a meglévő #mynavbar-t használja (Bootstrap collapse kompatibilis)
+   - initMobilKeresesToggle: eltávolítja az esetleges inline onclick attribútumot, majd eseménykezelőt ad
    ============================================================ */
 function initMenuToggle() {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const menuPanel = document.getElementById("menuPanel");
+  const menuPanel = document.getElementById("mynavbar"); // a HTML-ben ez létezik
 
   if (!hamburgerBtn || !menuPanel) return;
 
   hamburgerBtn.addEventListener("click", () => {
-    const isOpen = menuPanel.classList.toggle("open");
+    // Ha Bootstrap Collapse elérhető, használjuk azt (jobb animáció és állapotkezelés)
+    if (window.bootstrap && typeof window.bootstrap.Collapse !== "undefined") {
+      const instance = window.bootstrap.Collapse.getInstance(menuPanel) || new window.bootstrap.Collapse(menuPanel, { toggle: false });
+      if (menuPanel.classList.contains("show")) {
+        instance.hide();
+      } else {
+        instance.show();
+      }
+      // aria attribútumok a bootstrap által is kezelve, de biztosítjuk
+      const isOpen = menuPanel.classList.contains("show");
+      hamburgerBtn.setAttribute("aria-expanded", isOpen.toString());
+      menuPanel.setAttribute("aria-hidden", (!isOpen).toString());
+      return;
+    }
+
+    // Ha nincs bootstrap collapse (fallback)
+    const isOpen = menuPanel.classList.toggle("show");
     menuPanel.setAttribute("aria-hidden", (!isOpen).toString());
     hamburgerBtn.setAttribute("aria-expanded", isOpen.toString());
   });
@@ -254,10 +305,22 @@ function initMobilKeresesToggle() {
 
   if (!mobilBtn || !keresosav) return;
 
+  // Ha van inline onclick attribútum, távolítsuk el, hogy ne legyen duplikált viselkedés
+  if (mobilBtn.hasAttribute("onclick")) {
+    mobilBtn.removeAttribute("onclick");
+  }
+
   mobilBtn.addEventListener("click", () => {
     const isOpen = keresosav.classList.toggle("open");
     keresosav.setAttribute("aria-hidden", (!isOpen).toString());
     mobilBtn.setAttribute("aria-expanded", isOpen.toString());
+
+    // Ha nincs CSS .open szabály, biztosítsuk a megjelenítést inline stílussal
+    if (isOpen) {
+      keresosav.style.display = "block";
+    } else {
+      keresosav.style.display = "none";
+    }
   });
 
   const keresInditoBtn = document.getElementById("mobilKeresesInditoBtn");
@@ -267,9 +330,23 @@ function initMobilKeresesToggle() {
 }
 
 /* ============================================================
+   Biztosítjuk, hogy a modal a <body> közvetlen gyereke legyen
+   (stacking context problémák elkerülésére)
+   ============================================================ */
+function ensureModalInBody() {
+  const modal = document.getElementById("megtekintesModal");
+  if (modal && modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+}
+
+/* ============================================================
    Inicializálás
    ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
+  // Biztosítsuk, hogy a modal a body-ban legyen (korai)
+  ensureModalInBody();
+
   // Alap megjelenítés: teljes lista
   megjelenitTermekek(termekekLISTA);
 
@@ -288,6 +365,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (keresoMezo) keresoMezo.addEventListener("input", keresesInditasa);
   if (keresoMezoMobil) keresoMezoMobil.addEventListener("input", keresesInditasa);
 
-  // Globális hívhatóság a form onsubmit-hez
+  // Globális hívhatóság a form onsubmit-hez (ha még szükséges)
   window.keresesInditasa = keresesInditasa;
 });

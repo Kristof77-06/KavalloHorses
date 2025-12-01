@@ -9,7 +9,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #ffffff;
-  padding-top: 72px; /* navbar magasság */
+  padding-top: 80px; /* navbar magasság */
   overflow-x: hidden;
 }
 
@@ -61,7 +61,7 @@ body {
 
 .navbar-nav .nav-link:hover {
   background-color: #333333;
-  border-radius: px;
+  border-radius: 4px;
 }
 
 /* Kosár ikon */
@@ -73,6 +73,7 @@ body {
 header h1 {
   height: 80px;
   line-height: 90px; /* függőleges középre igazítás egy soros szöveghez */
+  margin: 0;
   font-size: 2rem;
   font-weight: bold;
 }
@@ -83,6 +84,35 @@ article {
   background-color: #ffffff;
   color: #000000;
 }
+
+/* biztosítsuk, hogy a modal mindig a tetején legyen */
+.modal {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2100 !important;
+}
+
+/* backdrop a modal mögött, de a navbar fölött */
+.modal-backdrop {
+  z-index: 2090 !important;
+}
+
+/* a vissza gomb legyen mindig látható a modal fejlécén */
+.modal-header .btn {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 2110 !important;
+}
+
+/* a cím ne takaródjon a gomb miatt */
+.modal-title {
+  margin-left: 56px;
+}
+
 
 /* Lábléc */
 footer {
@@ -103,8 +133,9 @@ h2 {
 h3 {
   font-weight: 200;
   font-size: 15px;
-  margin-top: 10px;
+  margin-top: 24px;
   margin-bottom: 10px;
+  line-height: 1.4;
 }
 
 /* Fejléc kép */
@@ -159,6 +190,9 @@ button:hover {
     width: 100%;
     text-align: right;
   }
+
+  #mobilKeresosav { display: none; }
+
 
   #keresoMezo {
     width: 100%;
