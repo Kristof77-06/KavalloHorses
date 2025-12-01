@@ -31,50 +31,52 @@
   </head>
 
   <body>
-    <!-- EGYSÉGES FEJLÉC (kosar.html-hez igazítva) -->
-    <header class="site-header">
-      <nav class="navbar navbar-expand-sm navbar-dark w-1">
-        <div class="container-fluid">
-          <!-- Desktop kereső -->
-          <form class="d-none d-sm-flex me-auto" role="search" id="desktopKeresoForm" onsubmit="event.preventDefault(); keresesInditasa();">
-            <input type="text" id="keresoMezo" class="form-control me-2" placeholder="Keresés..." />
-            <button type="submit" class="btn btn-outline-light">Keresés</button>
-          </form>
+<!-- EGYSÉGES FEJLÉC (kosar.html-hez igazítva) -->
+<header class="site-header">
+  <nav class="navbar navbar-expand-sm navbar-dark w-100">
+    <div class="container-fluid">
+      <!-- Desktop kereső -->
+      <form class="d-none d-sm-flex me-auto" role="search" id="desktopKeresoForm" onsubmit="event.preventDefault(); keresesInditasa();">
+        <input type="text" id="keresoMezo" class="form-control me-2" placeholder="Keresés..." />
+        <button type="submit" class="btn btn-outline-light">Keresés</button>
+      </form>
 
-          <!-- Mobil kereső gomb (ugyanaz, mint kosar.html) -->
-          <div class="d-sm-none d-flex justify-content-start px-3">
-            <button class="btn btn-outline-light" id="mobilKeresoBtn" onclick="toggleKeresosav()" aria-label="Mobil kereső">
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div>
+      <!-- Mobil kereső gomb -->
+      <div class="d-sm-none d-flex justify-content-start px-3">
+        <button class="btn btn-outline-light" id="mobilKeresoBtn" onclick="toggleKeresosav()" aria-label="Mobil kereső">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
 
-          <!-- Mobil kereső sáv (kosar.html viselkedés) -->
-          <div id="mobilKeresosav" class="d-sm-none px-3" aria-hidden="true" style="display: none;">
-            <input type="text" id="keresoMezoMobil" class="form-control my-2 w-100" placeholder="Írd be, amit keresel..." />
-            <button class="btn btn-primary mb-3 w-100" id="mobilKeresesInditoBtn" onclick="keresesInditasa()">Keresés indítása</button>
-          </div>
+      <!-- Mobil kereső sáv -->
+      <div id="mobilKeresosav" class="d-sm-none px-3" aria-hidden="true" style="display: none;">
+        <input type="text" id="keresoMezoMobil" class="form-control my-2 w-100" placeholder="Írd be, amit keresel..." />
+        <button class="btn btn-primary mb-3 w-100" id="mobilKeresesInditoBtn" onclick="keresesInditasa()">Keresés indítása</button>
+      </div>
 
-          <!-- Hamburger gomb -->
-          <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Menü megnyitása" id="hamburgerBtn">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+      <!-- Hamburger gomb -->
+      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Menü megnyitása" id="hamburgerBtn">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-          <!-- Menü elemek (egységes struktúra) -->
-          <div class="collapse navbar-collapse" id="mynavbar">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
-              <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
-              <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="kosar.html">
-                  <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
-                  <span class="d-none d-md-inline">Kosár</span>
-                  <span id="kosarDb">(0)</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-    </header>
+      <!-- Menü elemek -->
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
+          <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="kosar.html">
+              <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
+              <span class="d-none d-md-inline">Kosár</span>
+              <span id="kosarDb">(0)</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div> <!-- container-fluid -->
+  </nav> <!-- EZ volt a hiányzó lezárás -->
+</header>
 
     <!-- FŐ TARTALOM (kezdő rész) -->
     <main class="row">
@@ -82,7 +84,7 @@
         <h1>Termékeink</h1>
       </header>
 
-        <aside id="szures" class="col-12 mb-4 px-4">
+        <aside id="szures" class="col-12 mb-4 px-12">
           <div class="d-flex align-items-center justify-content-center">
             <label for="kategoriak" class="fw-bold me-3">Szűrés kategória szerint:</label>
             <select id="kategoriak" class="form-select w-auto">
