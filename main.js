@@ -13,17 +13,15 @@ function kepForras(termek) {
    Robosztusabb számparzolással (szóközök, egyéb karakterek kezelése)
    ============================================================ */
 function arSzoveg(termek) {
-  // Ha egy darab ár van (szám vagy szöveg), jelenítsük meg "Ft"-tal
   if (termek.ar && String(termek.ar).trim() !== "") {
     return `${termek.ar} Ft`;
   }
 
-  // Ha arak objektum van (pl. több méret), jelenítsük meg min-max tartományként
   if (termek.arak && typeof termek.arak === "object") {
     const ertekek = Object.values(termek.arak)
       .map((v) => String(v || ""))
-      .map((v) => v.replace(/\s+/g, ""))            // eltávolítjuk a szóközöket (pl. "1 400")
-      .map((v) => v.replace(/[^0-9.-]/g, ""))       // csak számjegyek, pont, mínusz marad
+      .map((v) => v.replace(/\s+/g, ""))
+      .map((v) => v.replace(/[^0-9.-]/g, ""))
       .map((v) => Number(v))
       .filter((v) => !Number.isNaN(v));
 
@@ -34,7 +32,6 @@ function arSzoveg(termek) {
     }
   }
 
-  // Ha nincs ár, térjünk vissza üres szöveggel
   return "";
 }
 
@@ -94,27 +91,20 @@ function megjelenitTermekek(lista) {
   const kontener = document.getElementById("termekek");
   if (!kontener) return;
 
-  // Konténer kiürítése
   kontener.innerHTML = "";
 
-  // Sor (Bootstrap grid) létrehozása
   const sor = document.createElement("div");
   sor.className = "row";
 
-  // Minden termékhez oszlop + kártya
   lista.forEach((termek) => {
     const oszlop = document.createElement("div");
     oszlop.className = "col-md-4 mb-4";
-
     oszlop.appendChild(kartyaElement(termek));
-
     sor.appendChild(oszlop);
   });
 
-  // Sor hozzáadása a konténerhez
   kontener.appendChild(sor);
 
-  // Üres lista esetén informáló üzenet
   if (!lista.length) {
     const uzenet = document.createElement("div");
     uzenet.className = "alert alert-info mt-3";
@@ -159,13 +149,11 @@ function getKeresoszo() {
 function keresesInditasa() {
   const keresoszo = getKeresoszo();
 
-  // Ha nincs keresőszó, jelenítsük meg az alaplistát
   if (!keresoszo) {
     megjelenitTermekek(termekekLISTA);
     return;
   }
 
-  // Keresés névben, rövid és részletes leírásban (null/undefined védelemmel)
   const talalatok = termekekLISTA.filter((t) =>
     (t.nev || "").toLowerCase().includes(keresoszo) ||
     (t.leiras || "").toLowerCase().includes(keresoszo) ||
@@ -174,7 +162,6 @@ function keresesInditasa() {
 
   megjelenitTermekek(talalatok);
 }
-
 /* ============================================================
    Kategória normalizálás (ékezet/szóköz nélküli egységes forma)
    ============================================================ */
@@ -230,7 +217,7 @@ function megnyitMegtekintesModal(termek) {
   const modalBody = document.getElementById("modalBody");
   if (!modalBody) return;
 
-  // Modal tartalom összeállítása (biztonságosabb innerHTML használat, mert kontrollált tartalom)
+  // Modal tartalom összeállítása (kontrollált innerHTML)
   const kep = kepForras(termek);
   const arMegjelenites = arSzoveg(termek);
   const nev = termek.nev || "";
@@ -244,7 +231,7 @@ function megnyitMegtekintesModal(termek) {
     <button type="button" class="btn btn-success" id="kosarBtn">Kosárba</button>
   `;
 
-  // Kosár gomb esemény — once opcióval, hogy többször ne regisztrálódjon
+  // Kosár gomb esemény — egyszeri regisztráció
   const kosarBtn = modalBody.querySelector("#kosarBtn");
   if (kosarBtn) {
     kosarBtn.addEventListener("click", () => {
@@ -267,8 +254,6 @@ function megnyitMegtekintesModal(termek) {
 
 /* ============================================================
    Menü és mobil kereső nyitása/zárása (robosztusabb)
-   - initMenuToggle: a meglévő #mynavbar-t használja (Bootstrap collapse kompatibilis)
-   - initMobilKeresesToggle: eltávolítja az esetleges inline onclick attribútumot, majd eseménykezelőt ad
    ============================================================ */
 function initMenuToggle() {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -277,7 +262,7 @@ function initMenuToggle() {
   if (!hamburgerBtn || !menuPanel) return;
 
   hamburgerBtn.addEventListener("click", () => {
-    // Ha Bootstrap Collapse elérhető, használjuk azt (jobb animáció és állapotkezelés)
+    // Ha Bootstrap Collapse elérhető, használjuk azt
     if (window.bootstrap && typeof window.bootstrap.Collapse !== "undefined") {
       const instance = window.bootstrap.Collapse.getInstance(menuPanel) || new window.bootstrap.Collapse(menuPanel, { toggle: false });
       if (menuPanel.classList.contains("show")) {
@@ -285,14 +270,14 @@ function initMenuToggle() {
       } else {
         instance.show();
       }
-      // aria attribútumok a bootstrap által is kezelve, de biztosítjuk
+      // aria attribútumok frissítése
       const isOpen = menuPanel.classList.contains("show");
       hamburgerBtn.setAttribute("aria-expanded", isOpen.toString());
       menuPanel.setAttribute("aria-hidden", (!isOpen).toString());
       return;
     }
 
-    // Ha nincs bootstrap collapse (fallback)
+    // Fallback: egyszerű toggle
     const isOpen = menuPanel.classList.toggle("show");
     menuPanel.setAttribute("aria-hidden", (!isOpen).toString());
     hamburgerBtn.setAttribute("aria-expanded", isOpen.toString());
@@ -305,7 +290,7 @@ function initMobilKeresesToggle() {
 
   if (!mobilBtn || !keresosav) return;
 
-  // Ha van inline onclick attribútum, távolítsuk el, hogy ne legyen duplikált viselkedés
+  // Ha van inline onclick attribútum, távolítsuk el
   if (mobilBtn.hasAttribute("onclick")) {
     mobilBtn.removeAttribute("onclick");
   }
@@ -315,7 +300,7 @@ function initMobilKeresesToggle() {
     keresosav.setAttribute("aria-hidden", (!isOpen).toString());
     mobilBtn.setAttribute("aria-expanded", isOpen.toString());
 
-    // Ha nincs CSS .open szabály, biztosítsuk a megjelenítést inline stílussal
+    // Biztos megjelenítés, ha nincs .open CSS
     if (isOpen) {
       keresosav.style.display = "block";
     } else {
