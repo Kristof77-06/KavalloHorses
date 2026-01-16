@@ -5,6 +5,19 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 /* Test */
 body {
   font-family: Arial, sans-serif;
@@ -251,4 +264,35 @@ button:hover {
   hr {
     margin-bottom: 10px;
   }
+}
+
+/* A Bootstrap középre igazításának teljes kikapcsolása */
+#megtekintesModal .modal-dialog {
+  margin-top: 81px !important;   /* navbar alatt fixen */
+  margin-bottom: 0 !important;
+  transform: none !important;    /* EZ A LÉNYEG – kikapcsolja a középre igazítást */
+  align-items: flex-start !important; /* biztos ami biztos */
+}
+
+#termekLista, #talalatok, .termek-kontener {
+  min-height: 60vh;          /* legyen elég magas a középre igazításhoz */
+  display: flex;
+  justify-content: center;   /* vízszintes közép */
+  align-items: center;       /* függőleges közép */
+}
+
+.nincs-talalat {
+  position: fixed;          /* a teljes képernyőhöz igazítjuk */
+  top: 50%;                 /* függőleges közép */
+  left: 50%;                /* vízszintes közép */
+  transform: translate(-50%, -50%); /* valódi középre igazítás */
+
+  font-size: 2rem;          /* 32px */
+  font-weight: 700;
+  background: #ffffff;
+  color: #000000;
+  padding: 12px 18px;
+  border: none;
+  text-align: center;
+  z-index: 9999;
 }

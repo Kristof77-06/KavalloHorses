@@ -107,7 +107,7 @@ function megjelenitTermekek(lista) {
 
   if (!lista.length) {
     const uzenet = document.createElement("div");
-    uzenet.className = "alert alert-info mt-3";
+    uzenet.className = "nincs-talalat mt-3";
     uzenet.textContent = "Jelenleg nincs megjeleníthető termék.";
     kontener.appendChild(uzenet);
   }
