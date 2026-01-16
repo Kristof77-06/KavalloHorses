@@ -9,16 +9,13 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #ffffff;
-  padding-top: 80px; /* navbar magasság */
+  padding-top: 0; /* navbar magasság */
   overflow-x: hidden;
 }
 
 /* NAVBAR fixen a tetején */
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;        /* vagy relative */
   z-index: 1050;
   width: 100%;
   height: 80px;
@@ -26,6 +23,7 @@ body {
   display: flex;
   align-items: center;
 }
+/* top, left, right: TÖRÖLD */
 
 /* NAVBAR belső elrendezés */
 .navbar .container-fluid {
@@ -87,18 +85,12 @@ article {
 
 /* biztosítsuk, hogy a modal mindig a tetején legyen */
 .modal {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2100 !important;
+  /* EZEKET TÖRÖLD: */
+  /* position: fixed !important;
+  top: 0; left: 0; right: 0; bottom: 0; */
+  z-index: 2100 !important; /* ha kell magas réteg a navbar fölé */
 }
-
-/* backdrop a modal mögött, de a navbar fölött */
-.modal-backdrop {
-  z-index: 2090 !important;
-}
+.modal-backdrop { z-index: 2090 !important; }
 
 /* a vissza gomb legyen mindig látható a modal fejlécén */
 .modal-header .btn {
@@ -213,7 +205,7 @@ button:hover {
 /* Mobilnézet */
 @media (max-width: 576px) {
   body {
-    padding-top: 80px;
+    padding-top: 0;
   }
 
   .navbar-nav {

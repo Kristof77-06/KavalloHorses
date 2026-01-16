@@ -19,121 +19,132 @@
     <script type="module" src="main.js" defer></script>
 
     <style>
-      /* Biztonsági alapok: fixed navbar miatt a tartalom ne takaródjon */
+      /* Alap: fix navbar, tartalom nem csússzon alá */
       body { margin: 0; padding-top: 72px; font-family: Arial, sans-serif; }
       .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1050; background-color: #212529; }
+
       .nav-link { color: #fff; }
       .nav-link.active { font-weight: 600; }
       #kosarDb { font-weight: 600; margin-left: 6px; }
-      /* Mobil keresősáv alap (kosar.html viselkedéshez) */
+
+      /* Modal rétegek biztosan a navbar fölött */
+      .modal { z-index: 2000; }
+      .modal-backdrop { z-index: 1990; }
+
+      /* Alternatíva: modal nyitva → menü ne legyen fix, és szüntessük meg a felső paddingot */
+      .body-navbar-unfixed .navbar { position: static; z-index: 10; }
+      .body-navbar-unfixed { padding-top: 0; }
     </style>
   </head>
 
   <body>
-<!-- EGYSÉGES FEJLÉC (kosar.html-hez igazítva) -->
-<header class="site-header">
-  <nav class="navbar navbar-expand-sm navbar-dark w-100">
-    <div class="container-fluid">
-      <!-- Desktop kereső -->
-      <form class="d-none d-sm-flex me-auto" role="search" id="desktopKeresoForm" onsubmit="event.preventDefault(); keresesInditasa();">
-        <input type="text" id="keresoMezo" class="form-control me-2" placeholder="Keresés..." />
-        <button type="submit" class="btn btn-outline-light">Keresés</button>
-      </form>
+    <!-- EGYSÉGES FEJLÉC -->
+    <header class="site-header">
+      <nav class="navbar navbar-expand-sm navbar-dark w-100">
+        <div class="container-fluid">
+          <!-- Desktop kereső -->
+          <form class="d-none d-sm-flex me-auto" role="search" id="desktopKeresoForm" onsubmit="event.preventDefault(); keresesInditasa();">
+            <input type="text" id="keresoMezo" class="form-control me-2" placeholder="Keresés..." />
+            <button type="submit" class="btn btn-outline-light">Keresés</button>
+          </form>
 
-      <!-- Mobil kereső gomb -->
-      <div class="d-sm-none d-flex justify-content-start px-3">
-        <button class="btn btn-outline-light" id="mobilKeresoBtn" onclick="toggleKeresosav()" aria-label="Mobil kereső">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
-      </div>
+          <!-- Mobil kereső gomb -->
+          <div class="d-sm-none d-flex justify-content-start px-3">
+            <button class="btn btn-outline-light" id="mobilKeresoBtn" onclick="toggleKeresosav()" aria-label="Mobil kereső">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </div>
 
-      <!-- Mobil kereső sáv -->
-      <div id="mobilKeresosav" class="d-sm-none px-3" aria-hidden="true" style="display: none;">
-        <input type="text" id="keresoMezoMobil" class="form-control my-2 w-100" placeholder="Írd be, amit keresel..." />
-        <button class="btn btn-primary mb-3 w-100" id="mobilKeresesInditoBtn" onclick="keresesInditasa()">Keresés indítása</button>
-      </div>
+          <!-- Mobil kereső sáv -->
+          <div id="mobilKeresosav" class="d-sm-none px-3" aria-hidden="true" style="display: none;">
+            <input type="text" id="keresoMezoMobil" class="form-control my-2 w-100" placeholder="Írd be, amit keresel..." />
+            <button class="btn btn-primary mb-3 w-100" id="mobilKeresesInditoBtn" onclick="keresesInditasa()">Keresés indítása</button>
+          </div>
 
-      <!-- Hamburger gomb -->
-      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Menü megnyitása" id="hamburgerBtn">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+          <!-- Hamburger gomb -->
+          <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Menü megnyitása" id="hamburgerBtn">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-      <!-- Menü elemek -->
-      <div class="collapse navbar-collapse" id="mynavbar">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
-          <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="kosar.html">
-              <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
-              <span class="d-none d-md-inline">Kosár</span>
-              <span id="kosarDb">(0)</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div> <!-- container-fluid -->
-  </nav> <!-- EZ volt a hiányzó lezárás -->
-</header>
+          <!-- Menü elemek -->
+          <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link" href="Kezdolap.html">Kezdőlap</a></li>
+              <li class="nav-item"><a class="nav-link" href="rolunk.html">Rólunk</a></li>
+              <li class="nav-item"><a class="nav-link" href="index.html">Termékeink</a></li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center" href="kosar.html">
+                  <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
+                  <span class="d-none d-md-inline">Kosár</span>
+                  <span id="kosarDb">(0)</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
 
-    <!-- FŐ TARTALOM (kezdő rész) -->
+    <!-- FŐ TARTALOM -->
     <main class="row">
       <header class="text-center col-12">
         <h1>Termékeink</h1>
       </header>
 
-        <aside id="szures" class="col-12 mb-4 px-4">
-          <div class="d-flex align-items-center justify-content-center">
-            <label for="kategoriak" class="fw-bold me-3">Szűrés kategória szerint:</label>
-            <select id="kategoriak" class="form-select w-auto">
-              <option value="összes">Összes</option>
-              <option value="kiegeszitők">Kiegészítők</option>
-              <option value="egészség javító">Egészség javító</option>
-              <option value="csomagok">Csomagok</option>
-            </select>
-          </div>
-        </aside>
-        <aside id="keres" class="col-12 mb-3"></aside>
-        <article class="col-12"></article>
+      <aside id="szures" class="col-12 mb-4 px-4">
+        <div class="d-flex align-items-center justify-content-center">
+          <label for="kategoriak" class="fw-bold me-3">Szűrés kategória szerint:</label>
+          <select id="kategoriak" class="form-select w-auto">
+            <option value="összes">Összes</option>
+            <option value="kiegeszitők">Kiegészítők</option>
+            <option value="egészség javító">Egészség javító</option>
+            <option value="csomagok">Csomagok</option>
+          </select>
+        </div>
+      </aside>
+      <aside id="keres" class="col-12 mb-3"></aside>
+      <article class="col-12"></article>
 
-        <!-- Termékek konténer -->
-        <aside id="termekek" class="col-12 px-4">
-          <!-- Ide tölti be a main.js a termekekLISTA tartalmát -->
-        </aside>
+      <!-- Termékek konténer -->
+      <aside id="termekek" class="col-12 px-4">
+        <!-- Ide tölti be a main.js a termekekLISTA tartalmát -->
+      </aside>
 
-        <!-- Lábléc -->
-        <footer class="col-12 text-center mt-4 bg-light py-4">
-          <div class="container">
-            <p class="mb-1">© 2025 Webshop - Minden jog fenntartva</p>
-            <p class="mb-1">Kézzel készült termékek, szeretettel</p>
-          </div>
-        </footer>
+      <!-- Lábléc -->
+      <footer class="col-12 text-center mt-4 bg-light py-4">
+        <div class="container">
+          <p class="mb-1">© 2025 Webshop - Minden jog fenntartva</p>
+          <p class="mb-1">Kézzel készült termékek, szeretettel</p>
+        </div>
+      </footer>
     </main>
 
-    <!-- Megtekintés modal -->
     <div class="modal fade" id="megtekintesModal" tabindex="-1" aria-labelledby="megtekintesModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header justify-content-start">
             <button type="button" class="btn btn-link text-dark" data-bs-dismiss="modal" aria-label="Bezárás">
-              <i class="fa fa-arrow-left fa-lg"></i>
+              <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
             </button>
-            <h5 class="modal-title ms-2" id="megtekintesModalLabel">Termék megtekintése</h5>
+            <h5 class="modal-title ms-2" id="megtekintesModalLabel">.</h5>
           </div>
-          <div class="modal-body" id="modalBody"></div>
-          <div class="modal-footer d-none"></div>
+          <div class="modal-body" id="modalBody">
+        <!-- Hosszú tartalom ide -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezárás</button>
+          </div>
         </div>
       </div>
     </div>
+    
 
     <!-- Külső JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- Mobil kereső toggle és init (kosar.html viselkedésének másolata) -->
+    <!-- Mobil kereső toggle + navbar unfix modal alatt -->
     <script>
-      // Mobil kereső megjelenítése / elrejtése (kosar.html viselkedés)
       function toggleKeresosav() {
         const el = document.getElementById('mobilKeresosav');
         if (!el) return;
@@ -150,7 +161,7 @@
 
         if (!mynab) return;
 
-        // Menüpontokra kattintva bezárjuk a menüt és biztosítjuk a navigációt (mobilon is)
+        // Menüpontokra kattintva bezárjuk a menüt és biztosítjuk a navigációt
         mynab.querySelectorAll('a.nav-link[href]').forEach(link => {
           link.addEventListener('click', function () {
             const href = this.getAttribute('href');
@@ -161,14 +172,12 @@
               try {
                 const targetUrl = new URL(href, location.href).href;
                 if (location.href !== targetUrl) location.href = targetUrl;
-              } catch (err) {
-                // hagyjuk a normál kattintást
-              }
+              } catch (err) {}
             }, 200);
           }, { passive: true });
         });
 
-        // Ha a mobil keresőt megnyitják, zárjuk a menüt; ha a menüt nyitják, elrejtjük a keresőt
+        // Mobil kereső és menü kölcsönös elrejtése
         if (mobilBtn) {
           mobilBtn.addEventListener('click', function () {
             if (mynab.classList.contains('show')) {
@@ -185,19 +194,8 @@
             }
           }, { passive: true });
         }
-
-        // Fallback: ha nincs kosarDb, hozzuk létre egyszer
-        if (!document.getElementById('kosarDb')) {
-          const cartLink = document.querySelector('a[href="kosar.html"]');
-          if (cartLink) {
-            const span = document.createElement('span');
-            span.id = 'kosarDb';
-            span.className = 'ms-2';
-            span.textContent = '(0)';
-            cartLink.appendChild(span);
-          }
-        }
       })();
+
     </script>
   </body>
 </html>
